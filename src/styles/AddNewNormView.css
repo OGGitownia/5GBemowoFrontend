@@ -1,0 +1,25 @@
+.add-norm {
+    padding: 40px;
+}
+
+.add-norm h1 {
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+
+.add-norm ul {
+    list-style: none;
+    padding: 0;
+}
+
+.add-norm li {
+    background-color: #f1f3f5;
+    color: #212529;
+    padding: 14px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+

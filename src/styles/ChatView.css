@@ -1,0 +1,104 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #121212;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ----- Kontener wyboru normy ----- */
+.norm-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 90vw;
+  height: 80vh;
+  padding: 1.5rem;
+  background: #252525;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+  position: relative;
+}
+
+/* ----- Nagłówek ----- */
+.norm-header {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* ----- Lista norm ----- */
+.norm-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+  margin: auto;
+  background: #1a1a1a;
+  padding: 1rem;
+  border-radius: 8px;
+  min-height: 50vh;
+  overflow-y: auto;
+}
+
+.norm-item {
+  background: #333;
+  color: white;
+  padding: 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  width: 100%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.norm-item:hover {
+  background: #007bff;
+}
+
+/* ----- Brak norm ----- */
+.no-norms {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #ff4444;
+  padding: 2rem;
+}
+
+/* ----- Przycisk dodawania nowej normy ----- */
+.add-norm-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  padding: 0.8rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background: #28a745;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.add-norm-button:hover {
+  background: #218838;
+}
+
+/* ----- Objaśnienie „Select Norm” ----- */
+.norm-info-box {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  background: #333;
+  color: white;
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  max-width: 300px;
+}

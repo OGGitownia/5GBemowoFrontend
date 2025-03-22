@@ -1,0 +1,42 @@
+.norm-selection {
+    padding: 40px;
+    text-align: center;
+}
+
+.norm-selection h1 {
+    font-size: 28px;
+    margin-bottom: 24px;
+}
+
+.norm-list {
+    list-style: none;
+    padding: 0;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.norm-item {
+    background: #e9ecef;
+    padding: 16px 20px;
+    margin-bottom: 14px;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: left;
+    word-break: break-word; /* zawijanie słów */
+    white-space: normal;    /* zawijanie linii */
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.norm-item:hover {
+    background-color: #d3d9df;
+}
+
+.norm-item strong {
+    display: block;
+    margin-bottom: 6px;
+}
+
+button {
+    margin-top: 20px;
+}
