@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "../main/Shared.css";
 import "../styles/NormSelectionView.css";
 
+
 type BaseEntity = {
     id: number;
     sourceUrl: string;
@@ -11,8 +12,9 @@ type BaseEntity = {
 
 type Props = {
     onAddNew: () => void;
-    onOpenChat: () => void;
+    onOpenChat: (norm: BaseEntity) => void;
 };
+
 
 function NormSelectionView({ onAddNew, onOpenChat }: Props) {
     const [bases, setBases] = useState<BaseEntity[]>([]);
@@ -42,13 +44,11 @@ function NormSelectionView({ onAddNew, onOpenChat }: Props) {
                         <li
                             key={base.id}
                             className="norm-item clickable"
-                            onClick={() => {
-                                console.log("Kliknięto normę:", base.sourceUrl);
-                                onOpenChat(); // 👉 wywołuje przejście do chatu
-                            }}
+                            onClick={() => onOpenChat(base)}
                         >
                             <strong>{base.sourceUrl}</strong> ({base.status})
                         </li>
+
                     ))}
                 </ul>
             ) : (
