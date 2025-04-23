@@ -23,6 +23,7 @@ function ChatView({ onBack, norm }: Props) {
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputText, setInputText] = useState("");
     const clientRef = useRef<Client | null>(null);
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
 
     useEffect(() => {
         const client = new Client({
@@ -32,7 +33,7 @@ function ChatView({ onBack, norm }: Props) {
             onConnect: () => {
                 console.log("✅ STOMP WebSocket połączony");
 
-                client.subscribe("/topic/chat", (message: IMessage) => {
+                client.subscribe("/topic/chat", async (message: IMessage) => {
                     console.log("📥 Otrzymano wiadomość STOMP:");
                     console.log("Raw message.body:", message.body);
 
@@ -44,6 +45,17 @@ function ChatView({ onBack, norm }: Props) {
                             sender: "bot",
                             content: data.answer || "🤖 Brak treści odpowiedzi",
                         };
+
+                        if (data.answer?.includes("obraz.png")) {
+                            try {
+                                const res = await fetch("/src/assets/obraz.png");
+                                const blob = await res.blob();
+                                const blobUrl = URL.createObjectURL(blob);
+                                setImageUrl(blobUrl);
+                            } catch (err) {
+                                console.error("Nie udało się załadować obrazu:", err);
+                            }
+                        }
 
                         setMessages((prev) => [...prev, botReply]);
                     } catch (err) {
@@ -134,6 +146,13 @@ function ChatView({ onBack, norm }: Props) {
             </div>
 
             <div className="chat-window">
+                {imageUrl && (
+                    <div className="image-preview">
+                        <h4>Obraz powiązany z odpowiedzią:</h4>
+                        <img src={imageUrl} alt="Podgląd" className="preview-image" />
+                    </div>
+                )}
+
                 {messages.map((msg, index) => (
                     <div
                         key={index}
