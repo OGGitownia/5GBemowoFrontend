@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "../main/Shared.css";
 import "../styles/NormSelectionView.css";
+import PhotoViewer from "../components/PhotoViewer.tsx";
 
 
 type BaseEntity = {
@@ -36,6 +37,10 @@ function NormSelectionView({ onAddNew, onOpenChat }: Props) {
 
     return (
         <div className="norm-selection">
+            <div>
+                <h1>Zdjęcie z backendu</h1>
+                <PhotoViewer folder={11} filename="photo_1.emf" />
+            </div>
             <h1>Select norm to chat with</h1>
 
             {bases.length > 0 ? (
