@@ -134,7 +134,7 @@ function ChatView({ onBack, norm }: Props) {
             .then(() => {
                 const botReply: Message = {
                     sender: "bot",
-                    content: `Serwer przyjął pytanie: "${userMessage.content}"`,
+                    content: `"${userMessage.content}"`,
                 };
                 setMessages((prev) => [...prev, botReply]);
             })

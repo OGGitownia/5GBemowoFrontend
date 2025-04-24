@@ -37,10 +37,7 @@ function NormSelectionView({ onAddNew, onOpenChat }: Props) {
 
     return (
         <div className="norm-selection">
-            <div>
-                <h1>Zdjęcie z backendu</h1>
-                <PhotoViewer folder={11} filename="photo_1.emf" />
-            </div>
+
             <h1>Select norm to chat with</h1>
 
             {bases.length > 0 ? (

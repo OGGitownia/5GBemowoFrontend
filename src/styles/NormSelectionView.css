@@ -1,42 +1,64 @@
 .norm-selection {
-    padding: 40px;
+    padding: 60px 24px;
     text-align: center;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
 }
 
 .norm-selection h1 {
-    font-size: 28px;
-    margin-bottom: 24px;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 32px;
+    color: #1e1e1e;
 }
 
 .norm-list {
     list-style: none;
     padding: 0;
     max-width: 800px;
-    margin: 0 auto;
+    margin: 0 auto 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .norm-item {
-    background: #e9ecef;
-    padding: 16px 20px;
-    margin-bottom: 14px;
-    border-radius: 10px;
+    background: white;
+    padding: 20px 24px;
+    border-radius: 12px;
     font-size: 16px;
     text-align: left;
-    word-break: break-word; /* zawijanie słów */
-    white-space: normal;    /* zawijanie linii */
+    word-break: break-word;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #dee2e6;
+    transition: background-color 0.2s ease, transform 0.2s ease;
     cursor: pointer;
-    transition: background-color 0.2s ease;
 }
 
 .norm-item:hover {
-    background-color: #d3d9df;
+    background-color: #f1f3f5;
+    transform: scale(1.01);
 }
 
 .norm-item strong {
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
+    font-weight: 600;
+    color: #343a40;
 }
 
-button {
-    margin-top: 20px;
+.norm-selection button {
+    background-color: #4a90e2;
+    color: white;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.norm-selection button:hover {
+    background-color: #357ab8;
 }

@@ -1,15 +1,48 @@
 .creating-norm {
-    padding: 60px;
+    padding: 80px 24px;
     text-align: center;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
 }
 
 .creating-norm h1 {
-    font-size: 28px;
-    color: #495057;
+    font-size: 32px;
+    font-weight: 600;
+    color: #212529;
+    margin-bottom: 20px;
 }
 
 .creating-norm p {
-    margin-top: 20px;
+    font-size: 18px;
     font-style: italic;
     color: #6c757d;
+    margin-top: 12px;
+    max-width: 500px;
+    line-height: 1.6;
+}
+
+.top-right {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.top-right button {
+    background-color: #adb5bd;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.top-right button:hover {
+    background-color: #868e96;
 }
