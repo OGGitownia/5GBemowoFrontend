@@ -1,75 +1,50 @@
 import { useEffect, useState } from "react";
 import "../main/Shared.css";
 import "../styles/NormSelectionView.css";
-import PhotoViewer from "../components/PhotoViewer.tsx";
 
-
-type BaseEntity = {
-    id: number;
-    sourceUrl: string;
+// Definicja typu Release odpowiadająca danym z backendu
+type Release = {
+    releaseId: string;
+    name: string;
     status: string;
-    statusMessage?: string;
+    startDate: string;
+    endDate: string;
+    closureDate: string;
 };
 
-type Props = {
-    onAddNew: () => void;
-    onOpenChat: (norm: BaseEntity) => void;
-};
-
-function ListaRealisow(){
-
+function ReleasesList() {
+    const [releases, setReleases] = useState<Release[]>([]);
 
     useEffect(() => {
-        fetch('/api/norms/releases').then(data =>{
-            console.log(data)
-
-        })
-    }, []);
-}
-function NormSelectionView({ onAddNew, onOpenChat }: Props) {
-    const [bases, setBases] = useState<BaseEntity[]>([]);
-
-    useEffect(() => {
-        ListaRealisow()
-        fetch("http://localhost:8080/api/bases")
-            .then(res => {
-                if (!res.ok) throw new Error("Błąd pobierania baz");
-                return res.json();
+        fetch("http://localhost:8080/api/norms/releases")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
             })
-            .then(data => {
-                console.log("Pobrane bazy:", data);
-                setBases(data);
+            .then((data: Release[]) => {
+                setReleases(data);
             })
-            .catch(err => {
-                console.error("Błąd pobierania baz:", err);
+            .catch((error) => {
+                console.error("Error fetching releases:", error);
             });
     }, []);
 
     return (
-        <div className="norm-selection">
-
-            <h1>Select norm to chat with</h1>
-
-            {bases.length > 0 ? (
-                <ul className="norm-list">
-                    {bases.map((base) => (
-                        <li
-                            key={base.id}
-                            className="norm-item clickable"
-                            onClick={() => onOpenChat(base)}
-                        >
-                            <strong>{base.sourceUrl}</strong> ({base.status})
-                        </li>
-
-                    ))}
-                </ul>
-            ) : (
-                <p>No norms available</p>
-            )}
-
-            <button onClick={onAddNew}>Add new norm</button>
+        <div>
+            <h2>All Releases</h2>
+            <ul>
+                {releases.map((release) => (
+                    <li key={release.releaseId}>
+                        <strong>{release.name}</strong> ({release.releaseId}) – {release.status}
+                        <br />
+                        Start: {release.startDate}, End: {release.endDate}, Closed: {release.closureDate}
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 }
 
-export default NormSelectionView;
+export default ReleasesList;
