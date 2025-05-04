@@ -16,11 +16,21 @@ type Props = {
     onOpenChat: (norm: BaseEntity) => void;
 };
 
+function ListaRealisow(){
 
+
+    useEffect(() => {
+        fetch('/api/norms/releases').then(data =>{
+            console.log(data)
+
+        })
+    }, []);
+}
 function NormSelectionView({ onAddNew, onOpenChat }: Props) {
     const [bases, setBases] = useState<BaseEntity[]>([]);
 
     useEffect(() => {
+        ListaRealisow()
         fetch("http://localhost:8080/api/bases")
             .then(res => {
                 if (!res.ok) throw new Error("Błąd pobierania baz");
