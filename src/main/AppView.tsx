@@ -57,7 +57,7 @@ function AppView() {
             return (
                 <ChatView
                     onBack={() => setView("select")}
-                    norm={selectedBase!} // ← Przekazujemy wybraną normę
+                    norm={selectedBase!}
                 />
             );
         default:
