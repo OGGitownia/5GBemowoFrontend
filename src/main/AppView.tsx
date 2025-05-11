@@ -3,6 +3,7 @@ import NormSelectionView from "../views/NormSelectionView.tsx";
 import AddNewNormView from "../views/AddNewNormView.tsx";
 import CreatingNormView from "../views/CreatingNormView.tsx";
 import ChatView from "../views/ChatView.tsx";
+import LoginSignup from "../views/LoginSignup.tsx";
 
 
 type BaseEntity = {
@@ -13,7 +14,7 @@ type BaseEntity = {
 };
 
 function AppView() {
-    const [view, setView] = useState<"select" | "add" | "creating" | "chat">("select");
+    const [view, setView] = useState<"login" | "select" | "add" | "creating" | "chat">("login");
 
     const [selectedBaseId, setSelectedBaseId] = useState<number | null>(null);
     const [selectedBase, setSelectedBase] = useState<BaseEntity | null>(null);
@@ -36,6 +37,9 @@ function AppView() {
     };
 
     switch (view) {
+        case "login":
+            return <LoginSignup onLoginSuccess={() => setView("select")} />;
+
         case "select":
             return (
                 <NormSelectionView
