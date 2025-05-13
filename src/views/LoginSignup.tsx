@@ -9,23 +9,42 @@ import password_icon from "../assets/password.png";
 type Props = {
     onLoginSuccess: () => void;
 };
-const handleClick = async (action: string, username: string, email: string, password: string, setAction: (val: string) => void) => {
+const handleClick = async (
+    action: string,
+    username: string,
+    email: string,
+    password: string,
+    setAction: (val: string) => void
+) => {
     if (action === "Sign Up") {
         const url = "http://localhost:8080/api/users/register/email";
-        const data = {username: username, email: email, password: password};
+        const data = {
+            username: username,
+            email: email,
+            password: password
+        };
+        console.log(data)
 
         try {
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
-                    "Accept": "application/json",
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify(data),
             });
 
-            const result = await response.json();
-            console.log(data);
-            console.log(result);
+            console.log(response.status);
+
+            if (response.ok) {
+                // Oczekujesz odpowiedzi tekstowej, nie JSON
+                const result = await response.text();
+                console.log("Rejestracja zakończona sukcesem:", result);
+            } else {
+                // Obsługa błędów (np. 400 Bad Request)
+                const errorText = await response.text();
+                console.error("Błąd podczas rejestracji:", errorText);
+            }
         } catch (error) {
             console.error("Błąd podczas wysyłania żądania:", error);
         }
@@ -33,6 +52,7 @@ const handleClick = async (action: string, username: string, email: string, pass
         setAction("Sign Up");
     }
 };
+
 
 
 function LoginSignup({ onLoginSuccess }: Props) {

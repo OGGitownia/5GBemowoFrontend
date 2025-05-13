@@ -30,29 +30,29 @@ function ChatView({ onBack, norm }: Props) {
             reconnectDelay: 5000,
             debug: (str) => console.log("STOMP: " + str),
             onConnect: () => {
-                console.log("✅ STOMP WebSocket połączony");
+                console.log(" STOMP WebSocket połączony");
 
                 client.subscribe("/topic/chat", (message: IMessage) => {
-                    console.log("📥 Otrzymano wiadomość STOMP:");
+                    console.log(" Otrzymano wiadomość STOMP:");
                     console.log("Raw message.body:", message.body);
 
                     try {
                         const data = JSON.parse(message.body);
-                        console.log("✅ Sparsowany JSON:", data);
+                        console.log(" Sparsowany JSON:", data);
 
                         const botReply: Message = {
                             sender: "bot",
-                            content: data.answer || "🤖 Brak treści odpowiedzi",
+                            content: data.answer || " Brak treści odpowiedzi",
                         };
 
                         setMessages((prev) => [...prev, botReply]);
                     } catch (err) {
-                        console.error("❌ Błąd parsowania JSON:", err);
+                        console.error(" Błąd parsowania JSON:", err);
                         setMessages((prev) => [
                             ...prev,
                             {
                                 sender: "bot",
-                                content: "❌ Nie udało się przetworzyć odpowiedzi serwera.",
+                                content: " Nie udało się przetworzyć odpowiedzi serwera.",
                             },
                         ]);
                     }
@@ -60,10 +60,10 @@ function ChatView({ onBack, norm }: Props) {
 
             },
             onStompError: (frame) => {
-                console.error("❌ Błąd STOMP: ", frame.headers["message"]);
+                console.error(" Błąd STOMP: ", frame.headers["message"]);
                 setMessages((prev) => [
                     ...prev,
-                    { sender: "bot", content: "❌ Błąd WebSocket (STOMP)" },
+                    { sender: "bot", content: " Błąd WebSocket (STOMP)" },
                 ]);
             },
         });
@@ -102,14 +102,14 @@ function ChatView({ onBack, norm }: Props) {
             .then(() => {
                 const botReply: Message = {
                     sender: "bot",
-                    content: `📨 Serwer przyjął pytanie: "${userMessage.content}"`,
+                    content: ` Serwer przyjął pytanie: "${userMessage.content}"`,
                 };
                 setMessages((prev) => [...prev, botReply]);
             })
             .catch((err) => {
                 const errorReply: Message = {
                     sender: "bot",
-                    content: `❌ Błąd serwera: ${err.message}`,
+                    content: ` Błąd serwera: ${err.message}`,
                 };
                 setMessages((prev) => [...prev, errorReply]);
             });
