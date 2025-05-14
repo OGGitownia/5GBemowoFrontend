@@ -1,15 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../main/Shared.css";
 import "../styles/Verification.css";
 
-
-type VerificationProps = {
-    onVerifySuccess: () => void;
-};
-
-export default function Verification({ onVerifySuccess }: VerificationProps) {
+export default function Verification() {
     const [token, setToken] = useState<string>("");
     const [message, setMessage] = useState<string | null>(null);
+    const navigate = useNavigate(); // dodajemy hook do nawigacji
 
     const handleSubmit = async () => {
         try {
@@ -17,57 +14,49 @@ export default function Verification({ onVerifySuccess }: VerificationProps) {
                 `/api/sessions/verify?token=${encodeURIComponent(token)}`,
                 {
                     method: "GET",
-                    headers: {"Content-Type": "application/json"},
+                    headers: { "Content-Type": "application/json" },
                 }
             );
 
             if (response.ok) {
-                const data = (await response.json()) as { valid: boolean };
-                if (data.valid) {
-                    setMessage("Token jest prawidłowy");
-                    onVerifySuccess();       // <-- wywołanie callbacka po udanej weryfikacji
-                } else {
-                    setMessage("Token jest nieprawidłowy");
-                }
+                const data = await response.json();
+                console.log("Weryfikacja udana:", data);
+                navigate("/select"); // przejście do widoku "select"
             } else {
-                setMessage(`Błąd serwera: ${response.status}`);
+                setMessage("Nieprawidłowy token lub błąd weryfikacji.");
             }
-        } catch (error: unknown) {
-            if (error instanceof Error) {
-                setMessage(`Błąd sieci: ${error.message}`);
-            } else {
-                setMessage(`Nieznany błąd: ${String(error)}`);
-            }
+        } catch (error) {
+            console.error("Błąd weryfikacji:", error);
+            setMessage("Wystąpił błąd podczas weryfikacji.");
         }
-        ;
-    }
+    };
 
-        return (
-            <div className="container">
-                <div className="header">
-                    <div className="text">Verification</div>
-                    <div className="underline"/>
-                </div>
-
-                <div className="inputs">
-                    <div className="input field-container">
-                        <input
-                            className="field-input"
-                            type="text"
-                            placeholder="Enter verification token"
-                            value={token}
-                            onChange={(e) => setToken(e.target.value)}
-                        />
-                    </div>
-                </div>
-
-                <div className="submit-container">
-                    <button className="submit" onClick={handleSubmit}>
-                        Submit
-                    </button>
-                </div>
-
-                {message && <div className="message">{message}</div>}
+    return (
+        <div className="container">
+            <div className="header">
+                <div className="text">Verification</div>
+                <div className="underline"/>
             </div>
-        );
+
+            <div className="inputs">
+                <div className="input field-container">
+                    <input
+                        className="field-input"
+                        type="text"
+                        placeholder="Enter verification token"
+                        value={token}
+                        onChange={(e) => setToken(e.target.value)}
+                    />
+                </div>
+            </div>
+
+            <div className="submit-container">
+                <button className="submit" onClick={handleSubmit}>
+                    Submit
+                </button>
+            </div>
+
+            {message && <div className="message">{message}</div>}
+        </div>
+    );
 }

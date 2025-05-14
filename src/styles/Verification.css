@@ -89,14 +89,3 @@
     font-size: 18px;
     color: #495057;
 }
-/* jeśli importujesz SVG z fill="currentColor" */
-.icon-btn {
-    /* nadaj biały kolor wektorom */
-    color: #ffffff;
-}
-
-/* jeśli ikonki to bitmapy (PNG) */
-.icon-btn img {
-    /* zamieni ciemne piksele na białe */
-    filter: brightness(0) invert(1);
-}

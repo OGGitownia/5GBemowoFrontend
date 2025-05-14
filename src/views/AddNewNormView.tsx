@@ -3,12 +3,7 @@ import "../main/Shared.css";
 import "../styles/AddNewNormView.css";
 
 
-type Props = {
-    onBack: () => void;
-    onSelectNorm: (url: string) => void;
-};
-
-function AddNewNormView({ onBack, onSelectNorm }: Props) {
+function AddNewNormView() {
     const [availableNorms, setAvailableNorms] = useState<string[]>([]);
 
     useEffect(() => {
@@ -35,14 +30,14 @@ function AddNewNormView({ onBack, onSelectNorm }: Props) {
     return (
         <div className="add-norm">
             <div className="top-right">
-                <button onClick={onBack}>Back to selection</button>
+                <button>Back to selection</button>
             </div>
             <h1>Add new norm</h1>
             <ul>
                 {availableNorms.map((url, i) => (
                     <li key={i}>
                         {url}
-                        <button onClick={() => onSelectNorm(url)}>Select</button>
+                        <button >Select</button>
                     </li>
                 ))}
             </ul>
