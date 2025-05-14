@@ -10,13 +10,16 @@ type BaseEntity = {
     statusMessage?: string;
 };
 
+/*
 type Props = {
     onAddNew: () => void;
     onOpenChat: (norm: BaseEntity) => void;
 };
 
+ */
 
-function NormSelectionView({ onAddNew, onOpenChat }: Props) {
+
+function NormSelectionView() {
     const [bases, setBases] = useState<BaseEntity[]>([]);
 
     useEffect(() => {
@@ -34,6 +37,7 @@ function NormSelectionView({ onAddNew, onOpenChat }: Props) {
             });
     }, []);
 
+
     return (
         <div className="norm-selection">
             <h1>Select norm to chat with</h1>
@@ -44,7 +48,6 @@ function NormSelectionView({ onAddNew, onOpenChat }: Props) {
                         <li
                             key={base.id}
                             className="norm-item clickable"
-                            onClick={() => onOpenChat(base)}
                         >
                             <strong>{base.sourceUrl}</strong> ({base.status})
                         </li>
@@ -55,7 +58,7 @@ function NormSelectionView({ onAddNew, onOpenChat }: Props) {
                 <p>No norms available</p>
             )}
 
-            <button onClick={onAddNew}>Add new norm</button>
+            <button >Add new norm</button>
         </div>
     );
 }

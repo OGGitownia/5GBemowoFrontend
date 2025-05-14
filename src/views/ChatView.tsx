@@ -1,25 +1,21 @@
-import { useState, useEffect, useRef } from "react";
+//import { useState, useEffect, useRef } from "react";
 import "../main/Shared.css";
 import "../styles/ChatView.css";
-import SockJS from "sockjs-client";
-import { Client, IMessage } from "@stomp/stompjs";
+//import SockJS from "sockjs-client";
+//import { Client, IMessage } from "@stomp/stompjs";
 
-type Props = {
-    onBack: () => void;
-    norm: {
-        id: number;
-        sourceUrl: string;
-        status: string;
-        statusMessage?: string;
-    };
-};
+
+/*
 
 type Message = {
     sender: "user" | "bot";
     content: string;
 };
 
-function ChatView({ onBack, norm }: Props) {
+ */
+
+function ChatView() {
+    /*
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputText, setInputText] = useState("");
     const clientRef = useRef<Client | null>(null);
@@ -156,6 +152,12 @@ function ChatView({ onBack, norm }: Props) {
             </div>
         </div>
     );
+
+     */
+    return    (<div className="input-area">
+
+        <button >Send</button>
+    </div>)
 }
 
 export default ChatView;

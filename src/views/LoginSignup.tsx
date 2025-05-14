@@ -1,20 +1,23 @@
 import { useState } from "react";
 import "../main/Shared.css";
 import "../styles/LoginSignup.css";
+import {useNavigate} from "react-router-dom";
+
 
 import user_icon from "../assets/person.png";
 import email_icon from "../assets/email.png";
 import password_icon from "../assets/password.png";
+import {User} from "../AppRouter.tsx";
+import {getNewSessionToken} from "../services/authService.tsx";
 
-type Props = {
-    onLoginSuccess: () => void;
-};
+
 const handleClick = async (
     action: string,
     username: string,
     email: string,
     password: string,
-    setAction: (val: string) => void
+    setAction: (val: string) => void,
+    navigate: ReturnType<typeof useNavigate>
 ) => {
     if (action === "Sign Up") {
         const url = "http://localhost:8080/api/users/register/email";
@@ -37,11 +40,32 @@ const handleClick = async (
             console.log(response.status);
 
             if (response.ok) {
-                // Oczekujesz odpowiedzi tekstowej, nie JSON
-                const result = await response.text();
+                const result = await response.json();
                 console.log("Rejestracja zakończona sukcesem:", result);
+
+                const user: User = {
+                    id: result.id,
+                    email: result.email,
+                    phoneNumber: result.phoneNumber,
+                    username: result.username,
+                    password: result.password,
+                    avatarPath: result.avatarPath,
+                    createdAt: result.createdAt,
+                    lastActiveAt: result.lastActiveAt,
+                    roles: result.roles,
+                    isActive: result.isActive,
+                    emailVerified: result.emailVerified,
+                    phoneNumberVerified: result.phoneNumberVerified,
+                };
+                localStorage.setItem("user", JSON.stringify(user));
+                const token = await getNewSessionToken(user.id, navigate);
+                if (token) {
+                    console.log("Token zapisany w localStorage:", token);
+                    localStorage.setItem("token", token);
+
+                    navigate("/verifyEmail");
+                }
             } else {
-                // Obsługa błędów (np. 400 Bad Request)
                 const errorText = await response.text();
                 console.error("Błąd podczas rejestracji:", errorText);
             }
@@ -55,16 +79,15 @@ const handleClick = async (
 
 
 
-function LoginSignup({ onLoginSuccess }: Props) {
+function LoginSignup() {
     const [action, setAction] = useState("Sign Up");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleLoginClick = () => {
-        // Tutaj normalnie dodałbyś fetch do backendu i walidację.
-        // Zakładamy, że logowanie zawsze się udaje:
-        onLoginSuccess();
+        navigate(`/select}`);
     };
 
     return (
@@ -115,7 +138,7 @@ function LoginSignup({ onLoginSuccess }: Props) {
             <div className="submit-container">
                 <div
                     className={action === "Login" ? "submit gray" : "submit"}
-                    onClick={() => handleClick(action, username, email, password, setAction)}
+                    onClick={() => handleClick(action, username, email, password, setAction, navigate)}
                 >
                     Sign Up
                 </div>

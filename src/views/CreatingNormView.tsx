@@ -2,17 +2,13 @@ import { useEffect, useState } from "react";
 import "../main/Shared.css";
 import "../styles/CreatingNormView.css";
 
-type Props = {
-    onBack: () => void;
-    baseId: number;
-    onReady: () => void;
-};
 
-function CreatingNormView({ onBack, baseId, onReady }: Props) {
+function CreatingNormView() {
     const [statusMessage, setStatusMessage] = useState("Connecting...");
 
     useEffect(() => {
-        const socket = new WebSocket(`ws://localhost:8080/ws/base-status?baseId=${baseId}`);
+        // !!!!!
+        const socket = new WebSocket(`ws://localhost:8080/ws/base-status?baseId=${"baseId"}`);
 
         socket.onopen = () => {
             console.log("WebSocket połączony");
@@ -27,7 +23,8 @@ function CreatingNormView({ onBack, baseId, onReady }: Props) {
 
                 if (data.status === "READY") {
                     socket.close();
-                    onReady();
+                    /// !!!
+                    //onReady();
                 }
                 if (data.status === "FAILED") {
                     socket.close();
@@ -44,12 +41,12 @@ function CreatingNormView({ onBack, baseId, onReady }: Props) {
         return () => {
             socket.close();
         };
-    }, [baseId, onReady]);
+    }, ["baseId", "onReady"]);
 
     return (
         <div className="creating-norm">
             <div className="top-right">
-                <button onClick={onBack}>Back to Add Norm</button>
+                <button >Back to Add Norm</button>
             </div>
             <h1>Norm is being created...</h1>
             <p>{statusMessage}</p>
