@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
+import {logoutUser} from "../services/logout.tsx";
+import {useNavigate} from "react-router-dom";
 import "../main/Shared.css";
 import "../styles/NormSelectionView.css";
 
 import profileIcon from "../assets/profile_icon.svg";
 import aboutIcon from "../assets/about_us_icon.svg";
+import logoutIcon from "../assets/logout.svg";
 import availableIcon from "../assets/available.png";
 import treeIcon from "../assets/tree.png";
 import starIcon from "../assets/favourite.png";
+
+
 
 // Model bazy danych
 type BaseEntity = {
@@ -19,6 +24,7 @@ type BaseEntity = {
 
 export default function NormSelectionView() {
     const [bases, setBases] = useState<BaseEntity[]>([]);
+    const navigate = useNavigate()
 
     useEffect(() => {
         fetch("/api/bases")
@@ -47,6 +53,18 @@ export default function NormSelectionView() {
                         </button>
                         <div className="icon-label">About Us</div>
                     </div>
+                </div>
+
+            </div>
+
+            <div className="left-icons">
+                <div className="icon-wrapper">
+                    <button type="button" className="icon-btn"
+                            onClick={() => logoutUser(navigate)}
+                            title="Wyloguj">
+                        <img src={logoutIcon} alt="Logout" />
+                    </button>
+                    <div className="icon-label">Logout</div>
                 </div>
             </div>
 

@@ -9,6 +9,7 @@ import email_icon from "../assets/email.png";
 import password_icon from "../assets/password.png";
 import {User} from "../AppRouter.tsx";
 import {getNewSessionToken} from "../services/authService.tsx";
+import {loginWithEmail} from "../services/login.tsx";
 
 
 const handleClick = async (
@@ -87,7 +88,7 @@ function LoginSignup() {
     const navigate = useNavigate();
 
     const handleLoginClick = () => {
-        navigate(`/select}`);
+        loginWithEmail(email, password, navigate);
     };
 
     return (
