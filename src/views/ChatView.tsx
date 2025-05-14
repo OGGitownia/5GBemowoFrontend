@@ -1,6 +1,8 @@
 //import { useState, useEffect, useRef } from "react";
 import "../main/Shared.css";
 import "../styles/ChatView.css";
+import {useUser} from "../services/UserContext.tsx";
+
 //import SockJS from "sockjs-client";
 //import { Client, IMessage } from "@stomp/stompjs";
 
@@ -15,6 +17,8 @@ type Message = {
  */
 
 function ChatView() {
+    const {user, setUser} = useUser()
+    console.log(user)
     /*
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputText, setInputText] = useState("");

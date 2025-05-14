@@ -1,15 +1,15 @@
-import { User, UserRole } from "../AppRouter";
+import { User } from "../types/User.tsx";
+import { UserRole } from "../types/UserRole.tsx";
 import { NavigateFunction } from "react-router-dom";
 
 
 export const loginWithEmail = async (email: string, password: string, navigate: NavigateFunction) => {
     try {
-        const response = await fetch("http://localhost:8080/api/users/login/email", {
+        const response = await fetch(`http://localhost:8080/api/users/login/email?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ email, password })
+            }
         });
 
         if (response.ok) {
@@ -35,7 +35,6 @@ export const loginWithEmail = async (email: string, password: string, navigate: 
 
             console.log("Logowanie udane. Użytkownik zapisany w localStorage.");
             navigate("/select");
-            //!!!!!!
         } else {
             const errorData = await response.json();
             console.error("Błąd logowania:", errorData.error);
@@ -46,6 +45,7 @@ export const loginWithEmail = async (email: string, password: string, navigate: 
         alert("Wystąpił błąd połączenia z serwerem.");
     }
 };
+
 
 
 

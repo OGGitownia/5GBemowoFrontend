@@ -1,9 +1,13 @@
 import { useEffect, useState } from "react";
 import "../main/Shared.css";
 import "../styles/CreatingNormView.css";
+import {useUser} from "../services/UserContext.tsx";
+
 
 
 function CreatingNormView() {
+    const {user, setUser} = useUser()
+    console.log(user)
     const [statusMessage, setStatusMessage] = useState("Connecting...");
 
     useEffect(() => {

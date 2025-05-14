@@ -10,10 +10,13 @@ import logoutIcon from "../assets/logout.svg";
 import availableIcon from "../assets/available.png";
 import treeIcon from "../assets/tree.png";
 import starIcon from "../assets/favourite.png";
+import {useUser} from "../services/UserContext.tsx";
 
 
 
-// Model bazy danych
+
+
+
 type BaseEntity = {
     id: number;
     sourceUrl: string;
@@ -23,6 +26,8 @@ type BaseEntity = {
 
 
 export default function NormSelectionView() {
+    const {user, setUser} = useUser()
+    console.log(user)
     const [bases, setBases] = useState<BaseEntity[]>([]);
     const navigate = useNavigate()
 
@@ -60,7 +65,7 @@ export default function NormSelectionView() {
             <div className="left-icons">
                 <div className="icon-wrapper">
                     <button type="button" className="icon-btn"
-                            onClick={() => logoutUser(navigate)}
+                            onClick={() => logoutUser(navigate, setUser)}
                             title="Wyloguj">
                         <img src={logoutIcon} alt="Logout" />
                     </button>

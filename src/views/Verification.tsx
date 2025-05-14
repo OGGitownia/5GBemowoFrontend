@@ -2,11 +2,16 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../main/Shared.css";
 import "../styles/Verification.css";
+import {useUser} from "../services/UserContext.tsx";
+
 
 export default function Verification() {
+    const { user, setUser } = useUser();
+
+    console.log(user)
     const [token, setToken] = useState<string>("");
     const [message, setMessage] = useState<string | null>(null);
-    const navigate = useNavigate(); // dodajemy hook do nawigacji
+    const navigate = useNavigate();
 
     const handleSubmit = async () => {
         try {

@@ -7,9 +7,10 @@ import {useNavigate} from "react-router-dom";
 import user_icon from "../assets/person.png";
 import email_icon from "../assets/email.png";
 import password_icon from "../assets/password.png";
-import {User} from "../AppRouter.tsx";
+
 import {getNewSessionToken} from "../services/authService.tsx";
 import {loginWithEmail} from "../services/login.tsx";
+import {User} from "../types/User.tsx";
 
 
 const handleClick = async (

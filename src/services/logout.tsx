@@ -1,11 +1,39 @@
 import { NavigateFunction } from "react-router-dom";
 
-export const logoutUser = (navigate: NavigateFunction) => {
-    // 1. Usuń token i dane użytkownika
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+export const logoutUser = async (navigate: NavigateFunction, setUser: (user: null) => void) => {
+    const token = localStorage.getItem("token");
 
-    // 2. Przekieruj na stronę logowania
-    //    replace: true żeby nie dało się „wrócić” przyciskiem back
-    navigate("/login", { replace: true });
+    if (!token) {
+        console.warn("Brak tokenu w localStorage, nie można zakończyć sesji.");
+
+        setUser(null);
+
+        navigate("/login", { replace: true });
+        return;
+    }
+    try {
+        const response = await fetch(`http://localhost:8080/api/users/session/${token}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (response.ok) {
+            console.log("Sesja zakończona poprawnie.");
+
+
+            localStorage.removeItem("token");
+
+            setUser(null);
+
+            navigate("/login", { replace: true });
+        } else {
+            console.error("Nie udało się zakończyć sesji.");
+            alert("Wystąpił problem podczas wylogowywania. Spróbuj ponownie");
+        }
+    } catch (error) {
+        console.error("Błąd podczas usuwania sesji:", error);
+        alert("Błąd połączenia z serwerem");
+    }
 };

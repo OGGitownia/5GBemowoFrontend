@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import "../main/Shared.css";
 import "../styles/AddNewNormView.css";
+import {useUser} from "../services/UserContext.tsx";
 
 
 function AddNewNormView() {
+    const {user, setUser} = useUser()
+    console.log(user)
     const [availableNorms, setAvailableNorms] = useState<string[]>([]);
 
     useEffect(() => {

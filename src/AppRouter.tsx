@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import LoginSignup from "./views/LoginSignup.tsx";
 import NormSelectionView from "./views/NormSelectionView.tsx";
@@ -7,14 +7,12 @@ import CreatingNormView from "./views/CreatingNormView.tsx";
 import ChatView from "./views/ChatView.tsx";
 import VerifyEmailView from "./views/Verification.tsx";
 import { fetchUserSession } from "./services/authService.tsx";
-import { Navigate } from "react-router-dom";
-
-
+import { UserProvider, useUser } from "./services/UserContext";
 
 function AppRouter() {
     const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState<User | null>(null);
     const navigate = useNavigate();
+    const { user, setUser } = useUser();
 
     useEffect(() => {
         const checkSession = async () => {
@@ -25,12 +23,11 @@ function AppRouter() {
             setLoading(false);
         };
         checkSession();
-    }, [navigate]);
+    }, [navigate, setUser]);
 
     if (loading) {
         return <div>Ładowanie aplikacji...</div>;
     }
-
 
     return (
         <Routes>
@@ -54,35 +51,13 @@ function AppRouter() {
                 </>
             )}
         </Routes>
-
-
     );
 }
 
-export interface User {
-    id: number;
-    email: string | null;
-    phoneNumber: string | null;
-    username: string;
-    password: string;
-    avatarPath: string | null;
-    createdAt: string;
-    lastActiveAt: string;
-    roles: UserRole[];
-    isActive: boolean;
-    emailVerified: boolean;
-    phoneNumberVerified: boolean;
-}
+const App = () => (
+    <UserProvider>
+        <AppRouter />
+    </UserProvider>
+);
 
-export enum UserRole {
-    USER = "USER",
-    ADMIN = "ADMIN",
-}
-
-
-
-
-export default AppRouter;
-
-
-
+export default App;
