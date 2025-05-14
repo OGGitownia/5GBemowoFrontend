@@ -1,42 +1,133 @@
-.norm-selection {
-    padding: 40px;
+/* NormSelectionView.css - uproszczone i zoptymalizowane */
+
+/* Główny kontener na cały ekran */
+.norm-selection-container {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background: #f5f5f5;
+}
+
+/* Pasek ikon w prawym górnym rogu */
+.top-bar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+.right-icons {
+    display: flex;
+    gap: 16px;
+}
+
+/* Uniwersalny wrapper dla ikon z podpisem */
+.icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.icon-btn {
+    width: 59px;
+    height: 59px;
+    background: #0056b3;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 0;
+    color: #ffffff;
+}
+.icon-btn img {
+    width: 35px;
+    height: 35px;
+    color: #ffffff;
+    object-fit: contain;
+}
+.icon-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #0056b3;
     text-align: center;
+    line-height: 1;
 }
 
-.norm-selection h1 {
-    font-size: 28px;
-    margin-bottom: 24px;
+/* Layout: aside z headerem i main z zawartością */
+.container-layout {
+    display: flex;
+    flex: 1;
+    height: 100%;
+    padding-top: 80px; /* miejsce na top-bar */
+    box-sizing: border-box;
+}
+.aside-panel {
+    width: 280px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.aside-panel .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+.aside-panel .text {
+    color: #0056b3;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+}
+.aside-panel .underline {
+    width: 40px;
+    height: 4px;
+    background: #0056b3;
+    border-radius: 4px;
 }
 
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    position: relative; /* umożliwia absolutne pozycjonowanie historii */
+}
+.icon-group {
+    display: flex;
+    justify-content: space-evenly; /* równe odstępy między ikonami */
+    width: 400px;                   /* dopasuj szerokość kontenera ikonek */
+    margin: 5px 0 15px;
+}
+
+
+.norm-list-scroll {
+    width: 800px;
+    height: 500px;
+    background: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    overflow-y: auto;
+    padding: 16px;
+    box-sizing: border-box;
+}
 .norm-list {
     list-style: none;
+    margin: 0;
     padding: 0;
-    max-width: 800px;
-    margin: 0 auto;
 }
-
 .norm-item {
-    background: #e9ecef;
-    padding: 16px 20px;
-    margin-bottom: 14px;
-    border-radius: 10px;
-    font-size: 16px;
-    text-align: left;
-    word-break: break-word; /* zawijanie słów */
-    white-space: normal;    /* zawijanie linii */
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 18px;
+    color: #495057;
     cursor: pointer;
-    transition: background-color 0.2s ease;
 }
-
+.norm-item:last-child {
+    border-bottom: none;
+}
 .norm-item:hover {
-    background-color: #d3d9df;
-}
-
-.norm-item strong {
-    display: block;
-    margin-bottom: 6px;
-}
-
-button {
-    margin-top: 20px;
+    background: #f0f0f0;
 }

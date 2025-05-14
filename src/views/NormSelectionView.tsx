@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import "../main/Shared.css";
 import "../styles/NormSelectionView.css";
 
+import profileIcon from "../assets/profile_icon.svg";
+import aboutIcon from "../assets/about_us_icon.svg";
+import availableIcon from "../assets/available.png";
+import treeIcon from "../assets/tree.png";
+import starIcon from "../assets/favourite.png";
 
+// Model bazy danych
 type BaseEntity = {
     id: number;
     sourceUrl: string;
@@ -10,54 +16,90 @@ type BaseEntity = {
     statusMessage?: string;
 };
 
+// Props przekazywane z AppView
 type Props = {
-    onAddNew: () => void;
     onOpenChat: (norm: BaseEntity) => void;
 };
 
-
-function NormSelectionView({ onAddNew, onOpenChat }: Props) {
+export default function NormSelectionView({ onOpenChat }: Props) {
     const [bases, setBases] = useState<BaseEntity[]>([]);
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/bases")
-            .then(res => {
+        fetch("/api/bases")
+            .then((res) => {
                 if (!res.ok) throw new Error("Błąd pobierania baz");
                 return res.json();
             })
-            .then(data => {
-                console.log("Pobrane bazy:", data);
-                setBases(data);
-            })
-            .catch(err => {
-                console.error("Błąd pobierania baz:", err);
-            });
+            .then((data) => setBases(data))
+            .catch((err) => console.error("Błąd pobierania baz:", err));
     }, []);
 
     return (
-        <div className="norm-selection">
-            <h1>Select norm to chat with</h1>
+        <div className="norm-selection-container">
+            {/* Pasek w prawym górnym rogu z ikonami Profil i About */}
+            <div className="top-bar">
+                <div className="right-icons">
+                    <div className="icon-wrapper">
+                        <button type="button" className="icon-btn">
+                            <img src={profileIcon} alt="Profil" />
+                        </button>
+                        <div className="icon-label">Profil</div>
+                    </div>
+                    <div className="icon-wrapper">
+                        <button type="button" className="icon-btn">
+                            <img src={aboutIcon} alt="About Us" />
+                        </button>
+                        <div className="icon-label">About Us</div>
+                    </div>
+                </div>
+            </div>
 
-            {bases.length > 0 ? (
-                <ul className="norm-list">
-                    {bases.map((base) => (
-                        <li
-                            key={base.id}
-                            className="norm-item clickable"
-                            onClick={() => onOpenChat(base)}
-                        >
-                            <strong>{base.sourceUrl}</strong> ({base.status})
-                        </li>
+            {/* Główny content: środkowy header, ikonki i rozszerzone okno norm */}
+            <div className="main-content">
+                <div className="header">
+                    <div className="text">Chat 3 GPP</div>
+                    <div className="underline" />
+                </div>
 
-                    ))}
-                </ul>
-            ) : (
-                <p>No norms available</p>
-            )}
+                <div className="icon-group">
+                    <div className="icon-wrapper">
+                        <button type="button" className="icon-btn">
+                            <img src={availableIcon} alt="Available Norms" />
+                        </button>
+                        <div className="icon-label">Available</div>
+                    </div>
+                    <div className="icon-wrapper">
+                        <button type="button" className="icon-btn">
+                            <img src={treeIcon} alt="Tree View" />
+                        </button>
+                        <div className="icon-label">Tree View</div>
+                    </div>
+                    <div className="icon-wrapper">
+                        <button type="button" className="icon-btn">
+                            <img src={starIcon} alt="Favorites" />
+                        </button>
+                        <div className="icon-label">Favorites</div>
+                    </div>
+                </div>
 
-            <button onClick={onAddNew}>Add new norm</button>
+                <div className="norm-list-scroll expanded">
+                    {bases.length > 0 ? (
+                        <ul className="norm-list">
+                            {bases.map((base) => (
+                                <li
+                                    key={base.id}
+                                    className="norm-item"
+                                    onClick={() => onOpenChat(base)}
+                                >
+                                    <strong>{base.sourceUrl}</strong> ({base.status})
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No norms available</p>
+                    )}
+                </div>
+            </div>
         </div>
     );
 }
-
-export default NormSelectionView;

@@ -1,0 +1,102 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: 200px;
+    width: 600px;
+    background: #f5f5f5;
+    padding-bottom: 30px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.text {
+    color: #0056b3;
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.underline {
+    width: 61px;
+    height: 6px;
+    background: #0056b3;
+    border-radius: 9px;
+}
+
+.inputs {
+    margin-top: 55px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.field-container {
+    display: flex;
+    align-items: center;
+    margin: auto;
+    width: 480px;
+    height: 80px;
+    background: #f5f5f5;
+    border-radius: 6px;
+    padding: 0 20px; /* odrobinę wewnętrznego marginesu */
+}
+
+.field-input {
+    flex: 1;
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #495057;
+    font-size: 19px;
+}
+
+.submit-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 220px;
+    height: 59px;
+    color: #f1f3f5;
+    background: #0056b3;
+    border-radius: 50px;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+}
+
+.message {
+    margin: 20px auto 0;
+    width: 480px;
+    text-align: center;
+    font-size: 18px;
+    color: #495057;
+}
+/* jeśli importujesz SVG z fill="currentColor" */
+.icon-btn {
+    /* nadaj biały kolor wektorom */
+    color: #ffffff;
+}
+
+/* jeśli ikonki to bitmapy (PNG) */
+.icon-btn img {
+    /* zamieni ciemne piksele na białe */
+    filter: brightness(0) invert(1);
+}

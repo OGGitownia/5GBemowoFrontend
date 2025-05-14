@@ -1,10 +1,11 @@
+// AppView.tsx
 import { useState } from "react";
 import NormSelectionView from "../views/NormSelectionView.tsx";
 import AddNewNormView from "../views/AddNewNormView.tsx";
 import CreatingNormView from "../views/CreatingNormView.tsx";
 import ChatView from "../views/ChatView.tsx";
 import LoginSignup from "../views/LoginSignup.tsx";
-
+import Verification from "../views/Verification.tsx";
 
 type BaseEntity = {
     id: number;
@@ -14,7 +15,9 @@ type BaseEntity = {
 };
 
 function AppView() {
-    const [view, setView] = useState<"login" | "select" | "add" | "creating" | "chat">("login");
+    const [view, setView] = useState<
+        "login" | "verify" | "select" | "add" | "creating" | "chat"
+    >("select");
 
     const [selectedBaseId, setSelectedBaseId] = useState<number | null>(null);
     const [selectedBase, setSelectedBase] = useState<BaseEntity | null>(null);
@@ -36,37 +39,48 @@ function AppView() {
         setView("chat");
     };
 
-    switch (view) {
-        case "login":
-            return <LoginSignup onLoginSuccess={() => setView("select")} />;
+    return (
+        <>  {/* using fragment to switch view */}
+            {view === "login" && (
+                <LoginSignup
+                    onLoginSuccess={() => setView("select")}
+                    onSignupSuccess={() => setView("verify")}
+                />
+            )}
 
-        case "select":
-            return (
+            {view === "verify" && (
+                <Verification
+                    onVerifySuccess={() => setView("select")}
+                />
+            )}
+
+            {view === "select" && (
                 <NormSelectionView
                     onAddNew={() => setView("add")}
                     onOpenChat={handleOpenChat}
                 />
-            );
-        case "add":
-            return <AddNewNormView onBack={() => setView("select")} onSelectNorm={handleNormSelected} />;
-        case "creating":
-            return (
+            )}
+            {view === "add" && (
+                <AddNewNormView
+                    onBack={() => setView("select")}
+                    onSelectNorm={handleNormSelected}
+                />
+            )}
+            {view === "creating" && (
                 <CreatingNormView
                     baseId={selectedBaseId!}
                     onBack={() => setView("add")}
                     onReady={() => setView("chat")}
                 />
-            );
-        case "chat":
-            return (
+            )}
+            {view === "chat" && (
                 <ChatView
                     onBack={() => setView("select")}
-                    norm={selectedBase!} // ← Przekazujemy wybraną normę
+                    norm={selectedBase!}
                 />
-            );
-        default:
-            return null;
-    }
+            )}
+        </>
+    );
 }
 
 export default AppView;
