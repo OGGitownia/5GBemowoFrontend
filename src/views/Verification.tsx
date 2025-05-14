@@ -11,7 +11,7 @@ export default function Verification() {
     const handleSubmit = async () => {
         try {
             const response = await fetch(
-                `/api/sessions/verify?token=${encodeURIComponent(token)}`,
+                `http://localhost:8080/api/users/verify/email?token=${encodeURIComponent(token)}`,
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
@@ -21,15 +21,26 @@ export default function Verification() {
             if (response.ok) {
                 const data = await response.json();
                 console.log("Weryfikacja udana:", data);
-                navigate("/select"); // przejście do widoku "select"
+                navigate("/select");
             } else {
-                setMessage("Nieprawidłowy token lub błąd weryfikacji.");
+                const contentType = response.headers.get("Content-Type");
+                if (contentType && contentType.includes("application/json")) {
+                    const errorData = await response.json();
+                    console.error("Błąd weryfikacji:", errorData.error);
+                    setMessage(errorData.error);
+                } else {
+                    const errorText = await response.text();
+                    console.error("Błąd HTML:", errorText);
+                    setMessage("Wystąpił błąd serwera.");
+                }
             }
         } catch (error) {
             console.error("Błąd weryfikacji:", error);
             setMessage("Wystąpił błąd podczas weryfikacji.");
         }
     };
+
+
 
     return (
         <div className="container">

@@ -16,12 +16,8 @@ type BaseEntity = {
     statusMessage?: string;
 };
 
-// Props przekazywane z AppView
-type Props = {
-    onOpenChat: (norm: BaseEntity) => void;
-};
 
-export default function NormSelectionView({ onOpenChat }: Props) {
+export default function NormSelectionView() {
     const [bases, setBases] = useState<BaseEntity[]>([]);
 
     useEffect(() => {
@@ -36,7 +32,7 @@ export default function NormSelectionView({ onOpenChat }: Props) {
 
     return (
         <div className="norm-selection-container">
-            {/* Pasek w prawym górnym rogu z ikonami Profil i About */}
+            {}
             <div className="top-bar">
                 <div className="right-icons">
                     <div className="icon-wrapper">
@@ -89,7 +85,6 @@ export default function NormSelectionView({ onOpenChat }: Props) {
                                 <li
                                     key={base.id}
                                     className="norm-item"
-                                    onClick={() => onOpenChat(base)}
                                 >
                                     <strong>{base.sourceUrl}</strong> ({base.status})
                                 </li>

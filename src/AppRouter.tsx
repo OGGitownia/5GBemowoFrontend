@@ -35,12 +35,14 @@ function AppRouter() {
     return (
         <Routes>
             {!user ? (
-                <Route path="*" element={<LoginSignup />} />
+                <>
+                    <Route path="/" element={<LoginSignup />} />
+                    <Route path="*" element={<LoginSignup />} />
+                </>
             ) : !user.emailVerified ? (
                 <>
                     <Route path="/verifyEmail" element={<VerifyEmailView />} />
                     <Route path="*" element={<Navigate to="/verifyEmail" />} />
-
                 </>
             ) : (
                 <>
@@ -48,9 +50,11 @@ function AppRouter() {
                     <Route path="/add" element={<AddNewNormView />} />
                     <Route path="/creating/:baseId" element={<CreatingNormView />} />
                     <Route path="/chat/:normId" element={<ChatView />} />
+                    <Route path="*" element={<Navigate to="/select" />} />
                 </>
             )}
         </Routes>
+
 
     );
 }
