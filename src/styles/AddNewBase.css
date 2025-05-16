@@ -1,0 +1,85 @@
+/* NormDetailsView.css */
+.norm-details-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    background-color: #f5f5f5;
+    gap: 20px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #006A71;
+}
+
+h3 {
+    font-size: 18px;
+    color: #4CAF50;
+}
+
+.selection-area {
+    display: flex;
+    gap: 15px;
+}
+
+.method-select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    background-color: #ffffff;
+    color: #333;
+    cursor: pointer;
+}
+
+.confirm-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.confirm-button:hover {
+    background-color: #45a049;
+}
+
+.confirmation-area {
+    margin-top: 10px;
+    padding: 15px;
+    background-color: #e0f7fa;
+    border-radius: 8px;
+    color: #00796b;
+    font-weight: bold;
+}
+
+.status-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.status-history {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #d1d5db;
+}
+
+.status-history li {
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.status-history li:last-child {
+    border-bottom: none;
+}

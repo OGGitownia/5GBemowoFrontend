@@ -9,13 +9,15 @@ import {Release} from "../types/Release.tsx";
 import {ReleasePanel} from "./smallerComponents/ReleasesPanel.tsx";
 import {Series} from "../types/Series.tsx";
 import {SeriesPanel} from "./smallerComponents/SeriesPanel.tsx";
-import "../styles/smallComponents/BackButton.css";
+import "../styles/smallComponents/BackButtonTree.css";
 import {Norm} from "../types/Norm.tsx";
 import NormPanel from "./smallerComponents/NormPanel.tsx";
 import {Base} from "../types/Base.tsx";
 import BasePanel from "./smallerComponents/BasePanel.tsx";
+import {useNavigate} from "react-router-dom";
 
 export default function TreeComponent() {
+    const navigate = useNavigate();
     const [releases, setReleases] = useState<Release[]>([]);
     const [series, setSeries] = useState<Series[]>([]);
     const [norms, setNorms] = useState<Norm[]>([]);
@@ -127,7 +129,7 @@ export default function TreeComponent() {
                             <NormPanel key={norm.specNumber}
                                        norm={norm}
                                        onShowBases={() => handleNormClick(norm)}
-                                       onAddBase={() => console.log("Add new base clicked!")}
+                                       onAddBase={() => navigate("/add", { state: { norm: selectedNorm } })}
                             />
                     ))}
                     </div>

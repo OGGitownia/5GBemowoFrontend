@@ -1,14 +1,30 @@
+/* BackButton.css */
 .back-button {
-    margin-bottom: 10px;
-    background-color: #607D8B;
-    color: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #006A71;
+    color: #ffffff;
     border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .back-button:hover {
-    background-color: #455A64;
+    background-color: #48A6A7;
+    transform: translateY(-2px);
+}
+
+.back-button:active {
+    background-color: #005358;
+    transform: translateY(0);
+}
+
+.back-button svg {
+    stroke: #ffffff;
 }

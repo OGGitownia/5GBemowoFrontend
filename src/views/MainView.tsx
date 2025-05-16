@@ -6,14 +6,12 @@ import "../styles/MainView.css";
 import profileIcon from "../assets/profile_icon.svg";
 import aboutIcon from "../assets/about_us_icon.svg";
 import logoutIcon from "../assets/logout.svg";
-import availableIcon from "../assets/available.png";
-import treeIcon from "../assets/tree.png";
-import starIcon from "../assets/favourite.png";
 import {useUser} from "../services/UserContext.tsx";
 import {useState} from "react";
 import TreeComponent from "../components/TreeComponent.tsx";
 import BestBasesComponent from "../components/BestBasesComponent.tsx";
 import AllBasesComponent from "../components/AllBasesComponent.tsx";
+import ViewSelector from "../components/ViewSelector.tsx";
 
 
 
@@ -51,17 +49,16 @@ export default function MainView() {
 
     return (
         <div className="norm-selection-container">
-            {}
             <div className="top-bar">
                 <div className="right-icons">
                     <div className="icon-wrapper">
-                        <button type="button" className="icon-btn">
+                        <button type="button" className="icon-btn" onClick={() => navigate("/profile")}>
                             <img src={profileIcon} alt="Profil" />
                         </button>
                         <div className="icon-label">Profil</div>
                     </div>
                     <div className="icon-wrapper">
-                        <button type="button" className="icon-btn">
+                        <button type="button" className="icon-btn" onClick={() => navigate("/aboutUs")}>
                             <img src={aboutIcon} alt="About Us" />
                         </button>
                         <div className="icon-label">About Us</div>
@@ -81,36 +78,16 @@ export default function MainView() {
                 </div>
             </div>
 
-            {/* Główny content: środkowy header, ikonki i rozszerzone okno norm */}
             <div className="main-content">
                 <div className="header">
                     <div className="text">Chat 3 GPP</div>
                     <div className="underline" />
                 </div>
 
-                <div className="icon-group">
-                    <div className="icon-wrapper">
-                        <button type="button" className="icon-btn" onClick={() => handleButtonClick("all")}>
-                            <img src={availableIcon} alt="Available Norms" />
-                        </button>
-                        <div className="icon-label">Available</div>
-                    </div>
-
-                    <div className="icon-wrapper">
-                        <button type="button" className="icon-btn" onClick={() => handleButtonClick("tree")}>
-                            <img src={treeIcon} alt="Tree View" />
-                        </button>
-                        <div className="icon-label">Tree View</div>
-                    </div>
-
-                    <div className="icon-wrapper">
-                        <button type="button" className="icon-btn" onClick={() => handleButtonClick("best")}>
-                            <img src={starIcon} alt="Favorites" />
-                        </button>
-                        <div className="icon-label">Favorites</div>
-                    </div>
-
-                </div>
+                <ViewSelector
+                    activeButton={activeButton}
+                    handleButtonClick={handleButtonClick}
+                />
 
                 <div className="norm-list-scroll expanded">
                     {renderContent()}

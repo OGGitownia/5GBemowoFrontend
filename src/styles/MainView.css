@@ -1,93 +1,106 @@
-/* MainView.css - uproszczone i zoptymalizowane */
-
-/* Główny kontener na cały ekran */
 .norm-selection-container {
     display: flex;
     flex-direction: column;
     width: 100vw;
     height: 100vh;
-    background: #f5f5f5;
+    background-color: #ffffff;
+    background-image:
+            radial-gradient(circle, rgb(255, 108, 108) 1px, transparent 1px),
+            radial-gradient(circle, rgb(0, 0, 0) 1px, transparent 1px);
+    background-size: 30px 30px, 15px 15px;
+    background-position: 0 0, 15px 15px;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
 }
 
-/* Pasek ikon w prawym górnym rogu */
+
 .top-bar {
     position: absolute;
     top: 20px;
     right: 20px;
+    display: flex;
+    gap: 16px;
+    z-index: 1000;
 }
+
 .left-icons {
     position: absolute;
     top: 20px;
     left: 20px;
     z-index: 1000;
 }
-.right-icons {
-    display: flex;
-    gap: 16px;
-    z-index: 1000;
-}
 
-/* Uniwersalny wrapper dla ikon z podpisem */
+
 .icon-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
-    z-index: 1000;
+    gap: 5px;
 }
+
 .icon-btn {
-    width: 59px;
-    height: 59px;
-    background: #0056b3;
+    width: 5px;
+    height: 5px;
+    background: #000000; !important;
     border: none;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    padding: 0;
-    color: #ffffff;
+    transition: background 0.3s ease;
+    opacity: 1 !important;
 }
+
 .icon-btn img {
-    width: 35px;
-    height: 35px;
-    color: #ffffff;
+    width: 500px;!important;
+    height: 500px;!important;
     object-fit: contain;
+    opacity: 1 !important;
 }
+
+.icon-btn:hover {
+    background: #ff0cf2;!important;
+    opacity: 1 !important;
+}
+
 .icon-label {
     font-size: 12px;
     font-weight: 600;
-    color: #0056b3;
+    color: #004494;
     text-align: center;
-    line-height: 1;
 }
 
-/* Layout: aside z headerem i main z zawartością */
+
 .container-layout {
     display: flex;
     flex: 1;
     height: 100%;
-    padding-top: 80px; /* miejsce na top-bar */
+    padding-top: 80px;
     box-sizing: border-box;
 }
+
 .aside-panel {
     width: 240px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .aside-panel .header {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
 }
+
 .aside-panel .text {
     color: #0056b3;
     font-size: 32px;
     font-weight: 700;
     margin: 0;
 }
+
 .aside-panel .underline {
     width: 40px;
     height: 4px;
@@ -101,13 +114,32 @@
     flex-direction: column;
     align-items: center;
     gap: 16px;
-    position: relative; /* umożliwia absolutne pozycjonowanie historii */
+    position: relative;
+    overflow: hidden;
 }
+
+
 .icon-group {
     display: flex;
-    justify-content: space-evenly; /* równe odstępy między ikonami */
-    width: 300px;                   /* dopasuj szerokość kontenera ikonek */
-    margin: 5px 0 15px;
+    justify-content: space-evenly;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 320px;
+    padding: 8px;
+    gap: 8px;
+}
+
+.icon-group .icon-btn {
+    width: 90px;
+    height: 90px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.icon-group .icon-btn.active {
+    background-color: #004494;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
 
@@ -121,21 +153,79 @@
     padding: 16px;
     box-sizing: border-box;
 }
+
 .norm-list {
     list-style: none;
     margin: 0;
     padding: 0;
 }
+
 .norm-item {
-    padding: 8px 0;
+    padding: 10px 0;
     border-bottom: 1px solid #e9ecef;
     font-size: 18px;
     color: #495057;
     cursor: pointer;
+    transition: background 0.3s ease;
 }
+
 .norm-item:last-child {
     border-bottom: none;
 }
+
 .norm-item:hover {
     background: #f0f0f0;
 }
+
+.text {
+    color: #14958b !important;
+    font-size: 28px !important;
+    font-weight: 600 !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 5px !important;
+}
+
+.underline {
+    width: 180px !important;
+    height: 6px !important;
+    background-color: #424242 !important;
+    border-radius: 4px !important;
+    margin-top: 5px !important;
+}
+
+body, html {
+    overflow: hidden !important;
+}
+
+
+
+
+
+.norm-list-scroll.expanded {
+    width: 70%;
+    height: 100%;
+    max-height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+}
+
+
+.norm-list-scroll.expanded::-webkit-scrollbar {
+    width: 8px;
+}
+
+.norm-list-scroll.expanded::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.norm-list-scroll.expanded::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+
+
+
