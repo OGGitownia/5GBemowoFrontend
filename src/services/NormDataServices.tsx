@@ -112,7 +112,8 @@ const isNorm = (data: unknown): data is Norm => {
         "latestVersion" in data &&
         "zipUrl" in data &&
         "date" in data &&
-        "size" in data
+        "size" in data &&
+        "numberOfBases" in data
     );
 };
 
@@ -125,7 +126,8 @@ const mapToNorm = (data: unknown): Norm => {
             latestVersion: data.latestVersion,
             zipUrl: data.zipUrl,
             date: data.date,
-            size: data.size
+            size: data.size,
+            numberOfBases: data.numberOfBases
         };
     }
     throw new Error("Invalid Norm format");

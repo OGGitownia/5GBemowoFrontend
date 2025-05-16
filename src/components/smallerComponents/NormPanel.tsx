@@ -1,27 +1,43 @@
 import React from "react";
 import "../../styles/smallComponents/NormPanel.css";
-import {Norm} from "../../types/Norm.tsx";
-
+import { Norm } from "../../types/Norm.tsx";
 
 interface NormPanelProps {
     norm: Norm;
-    onClick?: () => void;
+    onShowBases: () => void;
+    onAddBase: () => void;
 }
 
-const NormPanel: React.FC<NormPanelProps> = ({ norm, onClick }) => {
+const NormPanel: React.FC<NormPanelProps> = ({ norm, onShowBases, onAddBase }) => {
+    const getBackgroundColor = () => {
+        if (norm.numberOfBases === 0) return "rgba(255, 92, 92, 0.15)";
+        if (norm.numberOfBases === 1) return "rgba(255, 255, 92, 0.15)";
+        return "rgba(92, 255, 92, 0.15)";
+    };
+
     return (
-        <div className="norm-panel" onClick={onClick}>
+        <div className="norm-panel" style={{ backgroundColor: getBackgroundColor() }}>
             <div className="header">
-                <div className="name">{norm.title} - {norm.specNumber}</div>
+                <div className="name">
+                    {norm.title} - {norm.specNumber}
+                </div>
             </div>
             <div className="details">
-                <span>Latest Version: {norm.latestVersion}</span>
-                <span>Date: {norm.date}</span>
-                <span>Size: {norm.size}</span>
+                <span><strong>Versions:</strong> {norm.versions.join(", ")}</span>
+                <span><strong>Latest Version:</strong> {norm.latestVersion}</span>
+                <span><strong>Publication Date:</strong> {norm.date}</span>
+                <span><strong>Size:</strong> {norm.size}</span>
+                <span><strong>Number of Bases:</strong> {norm.numberOfBases}</span>
             </div>
-            <a className="download-link" href={norm.zipUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
-                Download ZIP
-            </a>
+
+            <div className="button-group">
+                <button className="show-bases-btn" onClick={onShowBases}>
+                    Show Bases
+                </button>
+                <button className="add-base-btn" onClick={onAddBase}>
+                    Add Base
+                </button>
+            </div>
         </div>
     );
 };

@@ -124,8 +124,12 @@ export default function TreeComponent() {
                     <h3>Norms for {selectedSeries.name}</h3>
                     <div className="norms-list">
                         {norms.map((norm) => (
-                            <NormPanel key={norm.specNumber} norm={norm} onClick={() => handleNormClick(norm)} />
-                        ))}
+                            <NormPanel key={norm.specNumber}
+                                       norm={norm}
+                                       onShowBases={() => handleNormClick(norm)}
+                                       onAddBase={() => console.log("Add new base clicked!")}
+                            />
+                    ))}
                     </div>
                 </div>
             ) : selectedRelease ? (

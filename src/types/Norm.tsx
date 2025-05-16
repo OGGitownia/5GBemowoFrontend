@@ -6,4 +6,5 @@ export interface Norm {
     zipUrl: string;
     date: string;
     size: string;
+    numberOfBases: number;
 }
