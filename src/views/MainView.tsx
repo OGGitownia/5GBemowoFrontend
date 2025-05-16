@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
 import {logoutUser} from "../services/logout.tsx";
 import {useNavigate} from "react-router-dom";
 import "../main/Shared.css";
-import "../styles/NormSelectionView.css";
+import "../styles/MainView.css";
 
 import profileIcon from "../assets/profile_icon.svg";
 import aboutIcon from "../assets/about_us_icon.svg";
@@ -11,35 +10,44 @@ import availableIcon from "../assets/available.png";
 import treeIcon from "../assets/tree.png";
 import starIcon from "../assets/favourite.png";
 import {useUser} from "../services/UserContext.tsx";
+import {useState} from "react";
+import TreeComponent from "../components/TreeComponent.tsx";
+import BestBasesComponent from "../components/BestBasesComponent.tsx";
+import AllBasesComponent from "../components/AllBasesComponent.tsx";
 
 
 
 
 
 
-type BaseEntity = {
-    id: number;
-    sourceUrl: string;
-    status: string;
-    statusMessage?: string;
-};
 
 
-export default function NormSelectionView() {
+export default function MainView() {
     const {user, setUser} = useUser()
     console.log(user)
-    const [bases, setBases] = useState<BaseEntity[]>([]);
     const navigate = useNavigate()
 
-    useEffect(() => {
-        fetch("/api/bases")
-            .then((res) => {
-                if (!res.ok) throw new Error("Błąd pobierania baz");
-                return res.json();
-            })
-            .then((data) => setBases(data))
-            .catch((err) => console.error("Błąd pobierania baz:", err));
-    }, []);
+    const [activeButton, setActiveButton] = useState<"all" | "tree" | "best">("all");
+
+    const handleButtonClick = (buttonType: "all" | "tree" | "best") => {
+        setActiveButton(buttonType);
+        console.log(`Active button is now: ${buttonType}`);
+    };
+
+    const renderContent = () => {
+        switch (activeButton) {
+            case "all":
+                return <AllBasesComponent />;
+            case "best":
+                return <BestBasesComponent />;
+            case "tree":
+                return <TreeComponent />;
+            default:
+                return null;
+        }
+    };
+
+
 
     return (
         <div className="norm-selection-container">
@@ -82,41 +90,32 @@ export default function NormSelectionView() {
 
                 <div className="icon-group">
                     <div className="icon-wrapper">
-                        <button type="button" className="icon-btn">
+                        <button type="button" className="icon-btn" onClick={() => handleButtonClick("all")}>
                             <img src={availableIcon} alt="Available Norms" />
                         </button>
                         <div className="icon-label">Available</div>
                     </div>
+
                     <div className="icon-wrapper">
-                        <button type="button" className="icon-btn">
+                        <button type="button" className="icon-btn" onClick={() => handleButtonClick("tree")}>
                             <img src={treeIcon} alt="Tree View" />
                         </button>
                         <div className="icon-label">Tree View</div>
                     </div>
+
                     <div className="icon-wrapper">
-                        <button type="button" className="icon-btn">
+                        <button type="button" className="icon-btn" onClick={() => handleButtonClick("best")}>
                             <img src={starIcon} alt="Favorites" />
                         </button>
                         <div className="icon-label">Favorites</div>
                     </div>
+
                 </div>
 
                 <div className="norm-list-scroll expanded">
-                    {bases.length > 0 ? (
-                        <ul className="norm-list">
-                            {bases.map((base) => (
-                                <li
-                                    key={base.id}
-                                    className="norm-item"
-                                >
-                                    <strong>{base.sourceUrl}</strong> ({base.status})
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p>No norms available</p>
-                    )}
+                    {renderContent()}
                 </div>
+
             </div>
         </div>
     );

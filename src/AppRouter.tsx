@@ -1,7 +1,7 @@
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import LoginSignup from "./views/LoginSignup.tsx";
-import NormSelectionView from "./views/NormSelectionView.tsx";
+import MainView from "./views/MainView.tsx";
 import AddNewNormView from "./views/AddNewNormView.tsx";
 import CreatingNormView from "./views/CreatingNormView.tsx";
 import ChatView from "./views/ChatView.tsx";
@@ -43,7 +43,7 @@ function AppRouter() {
                 </>
             ) : (
                 <>
-                    <Route path="/select" element={<NormSelectionView />} />
+                    <Route path="/select" element={<MainView />} />
                     <Route path="/add" element={<AddNewNormView />} />
                     <Route path="/creating/:baseId" element={<CreatingNormView />} />
                     <Route path="/chat/:normId" element={<ChatView />} />

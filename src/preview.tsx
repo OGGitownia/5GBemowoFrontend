@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import NormSelectionView from "./views/NormSelectionView";
+import MainView from "./views/MainView.tsx";
 import "./index.css";
 
 
@@ -11,7 +11,7 @@ const App = () => {
 
     return (
         <div className="app-container">
-            <NormSelectionView onOpenChat={handleOpenChat} />
+            <MainView onOpenChat={handleOpenChat} />
         </div>
     );
 };

@@ -1,4 +1,4 @@
-/* NormSelectionView.css - uproszczone i zoptymalizowane */
+/* MainView.css - uproszczone i zoptymalizowane */
 
 /* Główny kontener na cały ekran */
 .norm-selection-container {
@@ -71,7 +71,7 @@
     box-sizing: border-box;
 }
 .aside-panel {
-    width: 280px;
+    width: 240px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -106,14 +106,14 @@
 .icon-group {
     display: flex;
     justify-content: space-evenly; /* równe odstępy między ikonami */
-    width: 400px;                   /* dopasuj szerokość kontenera ikonek */
+    width: 300px;                   /* dopasuj szerokość kontenera ikonek */
     margin: 5px 0 15px;
 }
 
 
 .norm-list-scroll {
-    width: 800px;
-    height: 500px;
+    width: 55%;
+    height: 70%;
     background: #ffffff;
     border: 1px solid #dee2e6;
     border-radius: 6px;

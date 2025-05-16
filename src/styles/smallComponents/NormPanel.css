@@ -1,0 +1,38 @@
+.norm-panel {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    margin: 8px;
+    border-radius: 10px;
+    background-color: #F5F5F5;
+    border: 1px solid #B0BEC5;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    color: #37474F;
+    transition: all 0.3s ease;
+}
+
+.norm-panel:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background-color: #ECEFF1;
+}
+
+.header {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.download-link {
+    text-decoration: none;
+    color: #007acc;
+    font-weight: bold;
+}
+.download-link:hover {
+    color: #005fa3;
+}
