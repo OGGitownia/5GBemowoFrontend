@@ -126,12 +126,20 @@ export default function TreeComponent() {
                     <h3>Norms for {selectedSeries.name}</h3>
                     <div className="norms-list">
                         {norms.map((norm) => (
-                            <NormPanel key={norm.specNumber}
-                                       norm={norm}
-                                       onShowBases={() => handleNormClick(norm)}
-                                       onAddBase={() => navigate("/add", { state: { norm: selectedNorm } })}
+                            <NormPanel
+                                key={norm.specNumber}
+                                norm={norm}
+                                onShowBases={() => handleNormClick(norm)}
+                                onAddBase={() => {
+                                    if (norm) {
+                                        navigate("/add", { state: { norm } });
+                                    } else {
+                                        console.error("Norma nie jest wybrana!");
+                                    }
+                                }}
                             />
-                    ))}
+
+                        ))}
                     </div>
                 </div>
             ) : selectedRelease ? (

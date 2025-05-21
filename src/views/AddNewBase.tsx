@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/AddNewBase.css";
 import { Norm } from "../types/Norm.tsx";
 import { fetchBaseCreatingMethods } from "../services/fetchBaseCreatingMethods.tsx";
-import {createBase} from "../services/createBase.tsx";
-import {useUser} from "../services/UserContext.tsx";
+import { createBase } from "../services/createBase.tsx";
+import { useUser } from "../services/UserContext.tsx";
+import { Spinner } from "reactstrap";
+import { useBaseStatusSocket } from "../services/useBaseStatusSocket.tsx";
 
 const AddNewBase: React.FC = () => {
     const navigate = useNavigate();
@@ -15,8 +17,12 @@ const AddNewBase: React.FC = () => {
     const [isConfirmed, setIsConfirmed] = useState(false);
     const [currentStatus, setCurrentStatus] = useState<string>("Waiting for initial status...");
     const [statusHistory, setStatusHistory] = useState<string[]>([]);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [baseId, setBaseId] = useState<string | null>(null);
 
     const { user } = useUser();
+
     useEffect(() => {
         if (state && state.norm) {
             setNorm(state.norm);
@@ -41,6 +47,7 @@ const AddNewBase: React.FC = () => {
 
     const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedMethod(event.target.value);
+        setErrorMessage(null);
     };
 
     const handleCreateBase = () => {
@@ -52,26 +59,37 @@ const AddNewBase: React.FC = () => {
         if (selectedMethod && user?.id) {
             setIsConfirmed(true);
             setCurrentStatus("Waiting for the first status...");
+            setIsLoading(true);
+
             createBase(norm.zipUrl, selectedMethod, user.id)
-                .then(() => {
+                .then((returnedBaseId) => {
                     console.log("Base creation initiated.");
+                    setBaseId(returnedBaseId);
                 })
                 .catch((error) => {
                     console.error("Error during base creation:", error);
                 });
         } else {
-            console.error("Brak wymaganych danych: metoda lub user ID.");
+            console.error("Metoda tworzenia bazy nie została wybrana.");
+            setErrorMessage("You must select a method before confirming!");
         }
     };
-    const updateStatus = (newStatus: string) => {
+
+    const updateStatus = useCallback((newStatus: string) => {
         setStatusHistory((prev) => [currentStatus, ...prev]);
         setCurrentStatus(newStatus);
-    };
+    }, [currentStatus]);
+
+    useBaseStatusSocket(baseId || "", updateStatus);
 
     return norm ? (
         <div className="norm-details-container">
-            <h2>{norm.title}</h2>
-            <h3>{norm.specNumber}</h3>
+            <div className="info-header">
+                <h2>You are creating a new base for LLM</h2>
+                <p>
+                    Based on: <strong>{norm.title}</strong> (Code: <strong>{norm.specNumber}</strong>)
+                </p>
+            </div>
 
             {!isConfirmed ? (
                 <div className="selection-area">
@@ -83,13 +101,23 @@ const AddNewBase: React.FC = () => {
                             </option>
                         ))}
                     </select>
+
                     <button
                         className="confirm-button"
                         onClick={handleCreateBase}
-                        disabled={!selectedMethod}
+                        disabled={isLoading}
                     >
                         Confirm / Create
                     </button>
+
+                    {isLoading && (
+                        <div className="loading-spinner">
+                            <Spinner />
+                            <p>Your base is being created...</p>
+                        </div>
+                    )}
+
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
                 </div>
             ) : (
                 <div className="confirmation-area">
