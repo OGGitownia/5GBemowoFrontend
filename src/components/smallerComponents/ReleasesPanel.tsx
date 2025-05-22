@@ -2,6 +2,7 @@ import React from 'react';
 import "../../styles/smallComponents/ReleasesPanel.css";
 import {Release} from "../../types/Release.tsx";
 
+
 interface ReleasePanelProps {
     release: Release;
     onClick: () => void;

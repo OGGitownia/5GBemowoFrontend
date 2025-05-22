@@ -51,7 +51,7 @@ export default function MainView() {
 
 
     return (
-        <div className="norm-selection-container">
+        <div className="main-container">
             <div className="top-bar">
                 <div className="right-icons">
                     <button type="button" className="icon-btn-with-label" onClick={() => navigate("/profile")}>
@@ -89,7 +89,7 @@ export default function MainView() {
                     handleButtonClick={handleButtonClick}
                 />
 
-                <div className="norm-list-scroll expanded">
+                <div className="norm-list-scroll-expanded">
                     {renderContent()}
                 </div>
 

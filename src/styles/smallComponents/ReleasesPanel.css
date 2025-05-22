@@ -5,17 +5,17 @@
     padding: 14px;
     margin: 12px;
     border-radius: 12px;
-    background-color: #F5F5F5;
-    border: 1px solid #B0BEC5;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #1e1b2f; /* ciemny fioletowo-szary */
+    border: 1px solid #444054;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
     cursor: pointer;
-    color: #37474F;
+    color: #e0e0e0;
 }
 
 .release-panel:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    background-color: #ECEFF1;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+    background-color: #2b2740;
 }
 
 /* Header styling */
@@ -29,7 +29,7 @@
 .name {
     font-size: 1.4em;
     font-weight: bold;
-    color: #37474F;
+    color: #a259ff; /* neonowy fiolet */
 }
 
 /* Date box styling */
@@ -40,18 +40,24 @@
 }
 
 .date-box {
-    background-color: #90A4AE;
-    padding: 8px;
-    border-radius: 6px;
+    background-color: #262338; /* ciemny panel daty */
+    padding: 10px;
+    border-radius: 8px;
     text-align: center;
     width: 100%;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    color: #F5F5F5;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    color: #00ffe7; /* neonowy turkus */
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.date-box:hover {
+    background-color: #312d48;
 }
 
 .date-box span {
     display: block;
     font-weight: bold;
     margin-bottom: 4px;
-    color: #CFD8DC;
+    color: #ffea00; /* jasny żółty akcent na nagłówki dat */
 }
