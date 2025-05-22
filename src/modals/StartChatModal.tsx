@@ -75,14 +75,15 @@ const StartChatModal: React.FC<StartChatModalProps> = ({ baseInfo, onClose, onSt
                         ) : (
                             <div className="checkbox-list">
                                 {tuners.map((tuner) => (
-                                    <label key={tuner} className="checkbox-item">
+                                    <label key={tuner} className={`checkbox-item ${selectedTuners.includes(tuner) ? "selected" : ""}`}>
                                         <input
                                             type="checkbox"
                                             checked={selectedTuners.includes(tuner)}
                                             onChange={() => toggleTuner(tuner)}
                                         />
-                                        {tuner}
+                                        <span>{tuner}</span>
                                     </label>
+
                                 ))}
                             </div>
                         )}

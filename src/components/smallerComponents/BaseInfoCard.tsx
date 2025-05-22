@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../../styles/smallComponents/BaseInfoCard.css";
 import { BaseInfo } from "../../types/BaseInfo.tsx";
 import StartChatModal from "../../modals/StartChatModal.tsx";
+import {useNavigate} from "react-router-dom";
 
 
 interface BaseCardProps {
@@ -10,6 +11,7 @@ interface BaseCardProps {
 
 const BaseInfoCard: React.FC<BaseCardProps> = ({ base }) => {
     const [showModal, setShowModal] = useState(false);
+    const navigate = useNavigate();
 
     const handleCardClick = () => {
         setShowModal(true);
@@ -36,6 +38,10 @@ const BaseInfoCard: React.FC<BaseCardProps> = ({ base }) => {
                     onStartChat={(model, options) => {
                         console.log("Starting chat with", model, options);
                         handleCloseModal();
+                        navigate("/chat", {
+                            state: { model, tuners: options }
+                        });
+
                     }}
                 />
 

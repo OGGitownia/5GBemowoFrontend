@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import LoginSignup from "./views/LoginSignup.tsx";
 import MainView from "./views/MainView.tsx";
 import AddNewBase from "./views/AddNewBase.tsx";
-import CreatingNormView from "./views/CreatingNormView.tsx";
 import ChatView from "./views/ChatView.tsx";
 import VerifyEmailView from "./views/Verification.tsx";
 import { fetchUserSession } from "./services/authService.tsx";
@@ -47,8 +46,7 @@ function AppRouter() {
                 <>
                     <Route path="/select" element={<MainView />} />
                     <Route path="/add" element={<AddNewBase />} />
-                    <Route path="/creating/:baseId" element={<CreatingNormView />} />
-                    <Route path="/chat/:normId" element={<ChatView />} />
+                    <Route path="/chat" element={<ChatView />} />
                     <Route path="/aboutUs" element={<AboutUsView />} />
                     <Route path="/profile" element={<ProfileView />} />
                     <Route path="*" element={<Navigate to="/select" />} />
