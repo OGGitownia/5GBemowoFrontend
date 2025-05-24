@@ -55,6 +55,9 @@ export default function Verification() {
             </div>
 
             <div className="inputs">
+                <div className="email-info">
+                    Verification code sent to: <span className="user-email">{user?.email || "No email found"}</span>
+                </div>
                 <div className="input field-container">
                     <input
                         className="field-input"

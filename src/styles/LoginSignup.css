@@ -99,3 +99,19 @@
         background: #f1f3f5;
         color: #0056b3;
     }
+
+.click-here {
+    color: #006A71;
+    font-weight: bold;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.click-here:hover {
+    text-decoration: underline;
+}
+.info-text {
+    text-align: center;
+    margin-bottom: 16px;
+    color: #cccccc;
+}
