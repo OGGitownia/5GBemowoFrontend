@@ -20,5 +20,5 @@
 }
 
 .base-card strong {
-    color: #ffc107;
+    color: var(--mint);
 }

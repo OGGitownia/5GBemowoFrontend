@@ -3,8 +3,8 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background-color: #006A71;
-    color: #ffffff;
+    background-color: var(--mint);
+    color: var(--white);
     border: none;
     border-radius: 8px;
     padding: 10px 20px;

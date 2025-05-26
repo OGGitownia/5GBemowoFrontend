@@ -1,11 +1,15 @@
+@import './Shared.css';
+body {
+    background-color: var(--gray); /* albo konkretny kolor */
+}
 .profile-wrapper {
     position: relative;
     padding: 0 20px;
 }
 
-/* Rozmieszczenie przycisków w rogach ekranu */
+
 .top-buttons {
-    position: fixed; /* na stałe w rogu strony */
+    position: fixed;
     top: 20px;
     left: 0;
     width: 100%;
@@ -15,22 +19,18 @@
     z-index: 100;
 }
 
-
 .back-button-wrapper {
     display: flex;
     justify-content: flex-end;
 }
 
-/* Nie zmieniamy wyglądu samego profile-view */
 .profile-view {
     max-width: 400px;
     margin: 100px auto 0 auto; /* zostawia miejsce na przyciski */
     padding: 20px;
-    color: #ffffff;
+    color: var(--white);
 }
 
-
-/* Reszta stylów pozostaje bez zmian */
 .profile-field {
     display: flex;
     flex-direction: column;
@@ -40,25 +40,24 @@
 .profile-field label {
     font-weight: bold;
     margin-bottom: 4px;
-    color: #006A71
+    color: var(--mint);
 ;
 }
 
 .profile-field span {
     margin-bottom: 8px;
-    color: #000000;
+    color: var(--brightgray);
 }
 
 .profile-field input {
     padding: 8px;
     margin-bottom: 8px;
-    border: 1px solid #555;
+    border: 1px solid var(--brightgray);
     border-radius: 4px;
-    background-color: #222;
-    color: #ffffff;
+    background-color: var(--gray);
+    color: var(--white);
 }
 
-/* Styl dla delete button — jak back-button, ale czerwony */
 .back-button-fixed {
     position: fixed;
     top: 20px;
@@ -75,7 +74,7 @@
     align-items: center;
     gap: 8px;
     background-color: #c62828;
-    color: #ffffff;
+    color: var(--white);
     border: none;
     border-radius: 8px;
     padding: 10px 20px;

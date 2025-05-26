@@ -16,23 +16,24 @@ import ViewSelector from "../components/ViewSelector.tsx";
 import ChatHistoryPanel from "../components/ChatHistoryPanel.tsx";
 
 export default function MainView() {
-    const { user, setUser } = useApp();
+    const {user, setUser} = useApp();
     const navigate = useNavigate();
     const [activeButton, setActiveButton] = useState<"all" | "tree" | "best">("all");
 
     const handleButtonClick = (buttonType: "all" | "tree" | "best") => {
         setActiveButton(buttonType);
         console.log(`Active button is now: ${buttonType}`);
+        console.log(user)
     };
 
     const renderContent = () => {
         switch (activeButton) {
             case "all":
-                return <AllBasesComponent />;
+                return <AllBasesComponent/>;
             case "best":
-                return <BestBasesComponent />;
+                return <BestBasesComponent/>;
             case "tree":
-                return <TreeComponent />;
+                return <TreeComponent/>;
             default:
                 return null;
         }
@@ -40,15 +41,14 @@ export default function MainView() {
 
     return (
         <div className="main-container">
-            <div className="top-bar">
                 <div className="right-icons">
                     <button type="button" className="icon-btn-with-label" onClick={() => navigate("/profile")}>
-                        <ProfileIcon className="custom-icon" />
+                        <ProfileIcon className="custom-icon"/>
                         <span className="icon-label">Profil</span>
                     </button>
 
                     <button type="button" className="icon-btn-with-label" onClick={() => navigate("/aboutUs")}>
-                        <AboutIcon className="custom-icon" />
+                        <AboutIcon className="custom-icon"/>
                         <span className="icon-label">About Us</span>
                     </button>
 
@@ -58,34 +58,30 @@ export default function MainView() {
                         onClick={() => logoutUser(navigate, setUser)}
                         title="Wyloguj"
                     >
-                        <LogoutIcon className="custom-icon" />
+                        <LogoutIcon className="custom-icon"/>
                         <span className="icon-label">Logout</span>
                     </button>
-                </div>
             </div>
-
             <div className="main-content">
                 <div className="header">
                     <div className="text">Chat 3 GPP</div>
-                    <div className="underline" />
+                    <div className="underline"/>
                 </div>
-
                 <ViewSelector
                     activeButton={activeButton}
                     handleButtonClick={handleButtonClick}
                 />
-
                 <div className="content-columns">
-                    <div className="chat-history-wrapper">
-                        <ChatHistoryPanel />
-                    </div>
 
                     <div className="norm-list-scroll-expanded">
                         {renderContent()}
                     </div>
                 </div>
-            </div>
 
+            </div>
+            <div className="chat-history-wrapper">
+                <ChatHistoryPanel/>
+            </div>
         </div>
     );
 }

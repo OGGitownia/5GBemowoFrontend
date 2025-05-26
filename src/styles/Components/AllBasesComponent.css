@@ -1,13 +1,14 @@
+@import '../Shared.css';
 .all-bases-container {
     padding: 24px;
-    background-color: #1e1e1e;
+    background-color: var(--darkgray);
     min-height: 100vh;
 }
 
 .all-bases-title {
     font-size: 38px;
     font-weight: normal;
-    color: #f5f5f5;
+    color: var(--white);
     margin-bottom: 16px;
     font-family: 'Pacifico', cursive;
 }
@@ -20,7 +21,7 @@
 }
 
 .loading-text {
-    color: #cccccc;
+    color: var(--white);
     font-size: 18px;
     text-align: center;
     margin-top: 32px;

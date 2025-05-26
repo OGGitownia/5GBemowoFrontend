@@ -1,11 +1,13 @@
+@import '../Shared.css';
+
 .view-selector {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
     border-radius: 12px;
-    background-color: #f9f9f9;
-    border: 1px solid #d1d5db;
+    background-color: var(--gray);
+    border: 1px solid var(--mint);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     gap: 5px;
@@ -23,7 +25,7 @@
     border-radius: 8px;
     transition: all 0.3s ease;
     font-weight: bold;
-    color: #5b5b5b;
+    color: var(--brightgray);
     min-width: 90px;
     min-height: 90px;
 }
@@ -35,17 +37,17 @@
 }
 
 .icon-btn.active {
-    background-color: #7000ff;
-    color: white;
+    background-color:var(--mint);
+    color: var(--white);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .icon-btn.active span {
-    color: white;
+    color: var(--white);
 }
 
 .icon-btn:hover {
-    background-color: #e3e3e3;
+    background-color: var(--darkmint);
 }
 
 .icon-btn span {
