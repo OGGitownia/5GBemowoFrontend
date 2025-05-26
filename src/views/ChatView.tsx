@@ -7,7 +7,6 @@ import { Message } from "../types/Message";
 import { sendMessage } from "../services/sendMessage";
 import BackButton from "../components/smallerComponents/BackButton.tsx";
 import { useApp } from "../services/AppContext.tsx";
-import {generatePhotoView} from "../components/generatePhotoView.tsx";
 
 function ChatView() {
     const { chatMap, user, addPendingMessage } = useApp();
@@ -72,14 +71,10 @@ function ChatView() {
             await sendMessage(newMessage);
             addPendingMessage(newMessage);
             console.log("Message sent:", newMessage);
+
         } catch (e) {
             console.error("Błąd wysyłania wiadomości:", e);
         }
-    };
-
-    const extractPhotoCodes = (text: string): string[] => {
-        const regex = /photo_\d+\.\w+/g;
-        return text.match(regex) || [];
     };
 
     return (
@@ -96,36 +91,15 @@ function ChatView() {
             </div>
 
             <div className="chat-messages">
-                {messages.map((msg) => {
-                    const photoCodes = msg.answered ? extractPhotoCodes(msg.answer) : [];
-
-                    return (
-                        <div key={msg.id} className="chat-bubble">
-                            <div className="user-question">
-                                <strong>You:</strong> {msg.question}
-                            </div>
-                            <div className="ai-answer">
-                                <strong>AI:</strong>{" "}
-                                {msg.answered ? (
-                                    <>
-                                        {msg.answer}
-                                        {photoCodes.length > 0 && (
-                                            <div className="photo-preview-area">
-                                                {photoCodes.map((code) => (
-                                                    <div key={code} className="photo-preview">
-                                                        {generatePhotoView(code, baseId)}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </>
-                                ) : (
-                                    <em>Loading...</em>
-                                )}
-                            </div>
+                {messages.map((msg) => (
+                    <div key={msg.id} className="chat-bubble">
+                        <div className="user-question"><strong>You:</strong> {msg.question}</div>
+                        <div className="ai-answer">
+                            <strong>AI:</strong>{" "}
+                            {msg.answered ? msg.answer : <em>Loading...</em>}
                         </div>
-                    );
-                })}
+                    </div>
+                ))}
             </div>
 
             <div className="chat-input-area">
