@@ -1,6 +1,6 @@
 import React from "react";
 import "../../styles/smallComponents/BasePanel.css";
-import {Base} from "../../types/Base.tsx";
+import {Base} from "../../types";
 
 
 interface BasePanelProps {

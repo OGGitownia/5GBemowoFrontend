@@ -39,8 +39,9 @@ const BaseInfoCard: React.FC<BaseCardProps> = ({ base }) => {
                         console.log("Starting chat with", model, options);
                         handleCloseModal();
                         navigate("/chat", {
-                            state: { model, tuners: options }
+                            state: { model: model, tuners: options, baseId: base.id, chatId: -1 }
                         });
+
 
                     }}
                 />

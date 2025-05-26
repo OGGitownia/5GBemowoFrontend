@@ -6,7 +6,7 @@ import {useUser} from "../services/UserContext.tsx";
 
 
 export default function Verification() {
-    const { user, setUser } = useUser();
+    const { user} = useUser();
 
     console.log(user)
     const [token, setToken] = useState<string>("");

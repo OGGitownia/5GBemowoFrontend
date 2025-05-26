@@ -9,4 +9,5 @@ export interface Message {
     answered: boolean;
     userId: number;
     chatId: string;
+    baseId: string;
 }

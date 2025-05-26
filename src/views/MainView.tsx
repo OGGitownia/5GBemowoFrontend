@@ -1,33 +1,22 @@
-import {logoutUser} from "../services/logout.tsx";
-import {useNavigate} from "react-router-dom";
+import { logoutUser } from "../services/logout.tsx";
+import { useNavigate } from "react-router-dom";
 import "../main/Shared.css";
 import "../styles/MainView.css";
-
 
 import ProfileIcon from '../assets/profile_icon.svg?react';
 import AboutIcon from '../assets/about_us_icon.svg?react';
 import LogoutIcon from '../assets/logout.svg?react';
 
-
-import {useUser} from "../services/UserContext.tsx";
-import {useState} from "react";
+import { useApp } from "../services/AppContext.tsx";
+import { useState } from "react";
 import TreeComponent from "../components/TreeComponent.tsx";
 import BestBasesComponent from "../components/BestBasesComponent.tsx";
 import AllBasesComponent from "../components/AllBasesComponent.tsx";
 import ViewSelector from "../components/ViewSelector.tsx";
 
-
-
-
-
-
-
-
 export default function MainView() {
-    const {user, setUser} = useUser()
-    console.log(user)
-    const navigate = useNavigate()
-
+    const { user, setUser } = useApp();
+    const navigate = useNavigate();
     const [activeButton, setActiveButton] = useState<"all" | "tree" | "best">("all");
 
     const handleButtonClick = (buttonType: "all" | "tree" | "best") => {
@@ -48,8 +37,6 @@ export default function MainView() {
         }
     };
 
-
-
     return (
         <div className="main-container">
             <div className="top-bar">
@@ -68,15 +55,13 @@ export default function MainView() {
                         type="button"
                         className="icon-btn-with-label"
                         onClick={() => logoutUser(navigate, setUser)}
-                        title="Wyloguj">
+                        title="Wyloguj"
+                    >
                         <LogoutIcon className="custom-icon" />
                         <span className="icon-label">Logout</span>
                     </button>
                 </div>
             </div>
-
-
-
 
             <div className="main-content">
                 <div className="header">
@@ -92,7 +77,6 @@ export default function MainView() {
                 <div className="norm-list-scroll-expanded">
                     {renderContent()}
                 </div>
-
             </div>
         </div>
     );

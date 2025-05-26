@@ -6,14 +6,14 @@ import AddNewBase from "./views/AddNewBase.tsx";
 import ChatView from "./views/ChatView.tsx";
 import VerifyEmailView from "./views/Verification.tsx";
 import { fetchUserSession } from "./services/authService.tsx";
-import { UserProvider, useUser } from "./services/UserContext";
+import { useApp } from "./services/AppContext.tsx";
 import AboutUsView from "./views/AboutUsView.tsx";
 import ProfileView from "./views/ProfileView.tsx";
 
 function AppRouter() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-    const { user, setUser } = useUser();
+    const { user, setUser } = useApp();
 
     useEffect(() => {
         const checkSession = async () => {
@@ -56,10 +56,4 @@ function AppRouter() {
     );
 }
 
-const App = () => (
-    <UserProvider>
-        <AppRouter />
-    </UserProvider>
-);
-
-export default App;
+export default AppRouter;

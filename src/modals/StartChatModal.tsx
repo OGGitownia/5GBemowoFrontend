@@ -47,6 +47,7 @@ const StartChatModal: React.FC<StartChatModalProps> = ({ baseInfo, onClose, onSt
         );
     };
 
+
     return (
         <div className="modal-overlay">
             <div className="modal-content">

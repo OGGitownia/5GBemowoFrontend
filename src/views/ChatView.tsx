@@ -2,41 +2,54 @@ import "../main/Shared.css";
 import "../styles/ChatView.css";
 
 import { useLocation } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { Message } from "../types/Message";
 import { sendMessage } from "../services/sendMessage";
-import { useMessageWebSocket } from "../services/useMessageWebSocket";
 import BackButton from "../components/smallerComponents/BackButton.tsx";
-
-const userId = 1234;
-const chatId = "chat-" + Date.now();
+import { useApp } from "../services/AppContext.tsx";
 
 function ChatView() {
+    const { chatMap, user, addPendingMessage } = useApp();
     const location = useLocation();
-    const { model, tuners } = location.state as { model: string; tuners: string[] };
+
+    const { model, tuners, baseId, chatId: passedChatId } = location.state as {
+        model: string;
+        tuners: string[];
+        baseId: string;
+        chatId: number;
+    };
+
+    const generateNextChatId = (): number => {
+        let maxId = -1;
+        for (const chatId of chatMap.keys()) {
+            const numericId = parseInt(chatId);
+            if (!isNaN(numericId)) {
+                maxId = Math.max(maxId, numericId);
+            }
+        }
+        return maxId + 1;
+    };
+
+    const [chatId] = useState(() => {
+        if (passedChatId === -1) {
+            const newId = generateNextChatId();
+            console.log("Utworzono nowy chatId:", newId);
+            return newId;
+        } else {
+            console.log("Otwieranie istniejącego chatId:", passedChatId);
+            return passedChatId;
+        }
+    });
 
     const [input, setInput] = useState("");
-    const [messages, setMessages] = useState<Message[]>([]);
-
     const lastSentId = useRef<string | null>(null);
 
-    /*
-    useEffect(() => {
-        if (!lastSentId.current) return;
-        const id = lastSentId.current;
-        useMessageWebSocket(id, (updated) => {
-            setMessages((prev) =>
-                prev.map((m) => (m.id === updated.id ? updated : m))
-            );
-        });
-    }, [messages]);
-
-     */
+    const messages = chatMap.get(chatId.toString()) ?? [];
 
     const handleSend = async () => {
         if (!input.trim()) return;
 
-        const id = `${userId}${Date.now()}`;
+        const id = `${user?.id}${Date.now()}`;
         const newMessage: Message = {
             id,
             question: input,
@@ -46,16 +59,19 @@ function ChatView() {
             askedAt: Date.now(),
             answeredAt: undefined,
             answered: false,
-            userId,
-            chatId
+            userId: user!.id,
+            chatId: chatId.toString(),
+            baseId: baseId,
         };
 
-        setMessages((prev) => [...prev, newMessage]);
         lastSentId.current = id;
         setInput("");
 
         try {
             await sendMessage(newMessage);
+            addPendingMessage(newMessage);
+            console.log("Message sent:", newMessage);
+
         } catch (e) {
             console.error("Błąd wysyłania wiadomości:", e);
         }

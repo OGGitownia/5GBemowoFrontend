@@ -3,6 +3,7 @@ import { NavigateFunction } from "react-router-dom";
 
 export const fetchUserSession = async (navigate: NavigateFunction) => {
     const token = localStorage.getItem("token");
+    console.log("fetch user session", token);
 
     if (!token) {
         console.error("Brak tokenu, użytkownik niezalogowany");
