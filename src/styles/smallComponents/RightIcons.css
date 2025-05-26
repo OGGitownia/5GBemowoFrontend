@@ -1,11 +1,14 @@
 .right-icons {
     display: flex;
+    flex-direction: row; /* <- domyślnie, ale można jawnie ustawić */
+    align-items: center;  /* wyrównuje elementy w pionie, opcjonalnie */
     gap: 16px;
     position: absolute;
     right: 20px;
     top: 20px;
     z-index: 10;
 }
+
 
 .icon-btn-with-label {
     display: flex;

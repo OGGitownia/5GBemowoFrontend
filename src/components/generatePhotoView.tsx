@@ -19,18 +19,21 @@ const RemoteImage: React.FC<Props> = ({ filename, baseId }) => {
             try {
                 const response = await axios.get(
                     `http://localhost:8080/api/photos/${baseId}/${filename}`,
-                    {
-                        responseType: "arraybuffer",
-                    }
+                    { responseType: "arraybuffer" }
                 );
 
-                const base64 = Buffer.from(response.data, "binary").toString("base64");
+                const binaryString = Array.from(new Uint8Array(response.data))
+                    .map(byte => String.fromCharCode(byte))
+                    .join("");
+
+                const base64 = btoa(binaryString);
                 setImageData(`data:image/png;base64,${base64}`);
             } catch (err) {
                 console.error("Błąd ładowania obrazu:", err);
                 setError("Nie udało się załadować obrazu.");
             }
         };
+
 
         fetchImage();
     }, [filename, baseId]);

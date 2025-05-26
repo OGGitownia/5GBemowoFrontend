@@ -21,7 +21,6 @@ export default function TreeComponent() {
     const [releases, setReleases] = useState<Release[]>([]);
     const [series, setSeries] = useState<Series[]>([]);
     const [norms, setNorms] = useState<Norm[]>([]);
-    const [bases, setBases] = useState<Base[]>([]);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
