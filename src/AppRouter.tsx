@@ -10,6 +10,7 @@ import { useApp } from "./services/AppContext.tsx";
 import AboutUsView from "./views/AboutUsView.tsx";
 import ProfileView from "./views/ProfileView.tsx";
 
+
 function AppRouter() {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -54,6 +55,7 @@ function AppRouter() {
             )}
         </Routes>
     );
+
 }
 
 export default AppRouter;

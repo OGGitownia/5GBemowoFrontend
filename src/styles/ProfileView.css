@@ -1,0 +1,97 @@
+.profile-wrapper {
+    position: relative;
+    padding: 0 20px;
+}
+
+/* Rozmieszczenie przycisków w rogach ekranu */
+.top-buttons {
+    position: fixed; /* na stałe w rogu strony */
+    top: 20px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 100;
+}
+
+
+.back-button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Nie zmieniamy wyglądu samego profile-view */
+.profile-view {
+    max-width: 400px;
+    margin: 100px auto 0 auto; /* zostawia miejsce na przyciski */
+    padding: 20px;
+    color: #ffffff;
+}
+
+
+/* Reszta stylów pozostaje bez zmian */
+.profile-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.profile-field label {
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #006A71
+;
+}
+
+.profile-field span {
+    margin-bottom: 8px;
+    color: #000000;
+}
+
+.profile-field input {
+    padding: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    background-color: #222;
+    color: #ffffff;
+}
+
+/* Styl dla delete button — jak back-button, ale czerwony */
+.back-button-fixed {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+}
+
+.delete-button-fixed {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #c62828;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.delete-button-fixed:hover {
+    background-color: #e53935;
+    transform: translateY(-2px);
+}
+
+.delete-button-fixed:active {
+    background-color: #b71c1c;
+    transform: translateY(0);
+}
