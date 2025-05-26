@@ -4,7 +4,7 @@ import "../styles/AddNewBase.css";
 import { Norm } from "../types/Norm.tsx";
 import { fetchBaseCreatingMethods } from "../services/fetchBaseCreatingMethods.tsx";
 import { createBase } from "../services/createBase.tsx";
-import { useUser } from "../services/UserContext.tsx";
+import { useApp } from "../services/AppContext.tsx";
 import { Spinner } from "reactstrap";
 import { useBaseStatusSocket } from "../services/useBaseStatusSocket.tsx";
 
@@ -21,7 +21,7 @@ const AddNewBase: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [baseId, setBaseId] = useState<string | null>(null);
 
-    const { user } = useUser();
+    const { user, setUser } = useApp();
 
     useEffect(() => {
         if (state && state.norm) {

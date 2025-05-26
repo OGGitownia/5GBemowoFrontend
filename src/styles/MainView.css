@@ -3,9 +3,9 @@
     flex-direction: column;
     width: 100vw;
     height: 100vh;
-    background-color: #0f0127;
+    background-color: #05002c;
     background-image:
-            radial-gradient(circle, rgb(175, 255, 0) 1px, transparent 1px),
+            radial-gradient(circle, rgb(255, 255, 255) 1px, transparent 1px),
             radial-gradient(circle, rgb(0, 247, 255) 1px, transparent 1px);
     background-size: 30px 30px, 15px 15px;
     background-position: 0 0, 15px 15px;

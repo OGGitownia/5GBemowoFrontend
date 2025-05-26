@@ -2,11 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../main/Shared.css";
 import "../styles/Verification.css";
-import {useUser} from "../services/UserContext.tsx";
+import { useApp } from "../services/AppContext.tsx";
 
 
 export default function Verification() {
-    const { user} = useUser();
+    const { user, setUser } = useApp();
 
     console.log(user)
     const [token, setToken] = useState<string>("");
