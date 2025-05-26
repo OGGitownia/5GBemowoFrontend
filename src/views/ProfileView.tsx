@@ -39,7 +39,7 @@ const ProfileView = () => {
 
 
             <div className="profile-view">
-                <h2>Profile</h2>
+                <label className="profile-title">Profile</label>
 
                 <div className="profile-field">
                     <label>Username:</label>

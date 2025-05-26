@@ -5,31 +5,32 @@
     padding: 14px;
     margin: 12px;
     border-radius: 12px;
-    background-color: #1e1b2f; /* ciemny fioletowo-szary */
-    border: 1px solid #444054;
+    background-color: var(--gray); /* ciemny fioletowo-szary */
+    border: 1px solid var(--gray);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
     cursor: pointer;
-    color: #e0e0e0;
+    color: var(--white);
 }
 
 .release-panel:hover {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
-    background-color: #2b2740;
+    background-color: var(--darkmint);
 }
 
-/* Header styling */
+
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
+
 }
 
 .name {
     font-size: 1.4em;
     font-weight: bold;
-    color: #a259ff; /* neonowy fiolet */
+    color: var(--white) !important;
 }
 
 /* Date box styling */
@@ -40,24 +41,24 @@
 }
 
 .date-box {
-    background-color: #262338; /* ciemny panel daty */
+    background-color: var(--darkgray); /* ciemny panel daty */
     padding: 10px;
     border-radius: 8px;
     text-align: center;
     width: 100%;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    color: #00ffe7; /* neonowy turkus */
+    color: var(--white); /* neonowy turkus */
     font-weight: 500;
     transition: background-color 0.3s ease;
 }
 
 .date-box:hover {
-    background-color: #312d48;
+    background-color: var(--gray);
 }
 
 .date-box span {
     display: block;
     font-weight: bold;
     margin-bottom: 4px;
-    color: #ffea00; /* jasny żółty akcent na nagłówki dat */
+    color: var(--mint); /* jasny żółty akcent na nagłówki dat */
 }
