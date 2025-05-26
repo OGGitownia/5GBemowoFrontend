@@ -10,7 +10,7 @@ interface NormPanelProps {
 
 const NormPanel: React.FC<NormPanelProps> = ({ norm, onShowBases, onAddBase }) => {
     const getBackgroundColor = () => {
-        if (norm.numberOfBases === 0) return "rgb(42, 42, 42)";
+        if (norm.numberOfBases === 0) return "rgb(251,132,132)";
         if (norm.numberOfBases === 1) return "rgba(255, 255, 92, 0.15)";
         return "rgba(92, 255, 92, 0.15)";
     };
