@@ -1,10 +1,12 @@
 import React from "react";
 import { useApp } from "../services/AppContext";
 import { Message } from "../types/Message";
+import { useNavigate } from "react-router-dom";
 import "../styles/ChatHistoryPanel.css";
 
 const ChatHistoryPanel: React.FC = () => {
     const { chatMap, sortedChatIds } = useApp();
+    const navigate = useNavigate();
 
     const getLastMessage = (messages: Message[]): Message => {
         return messages.reduce((latest, msg) => {
@@ -24,7 +26,21 @@ const ChatHistoryPanel: React.FC = () => {
                     const lastMessage = getLastMessage(messages);
 
                     return (
-                        <div className="chat-tile" key={chatId}>
+                        <div
+                            className="chat-tile"
+                            key={chatId}
+                            onClick={() =>
+                                navigate("/chat", {
+                                    state: {
+                                        model: lastMessage.modelName,
+                                        tuners: lastMessage.tuners,
+                                        baseId: lastMessage.baseId,
+                                        chatId: chatId,
+                                    }
+                                })
+                            }
+                            style={{ cursor: "pointer" }} // dodatkowo możesz dodać klasę CSS
+                        >
                             <div className="chat-title">Chat ID: {chatId}</div>
                             <div className="chat-info">Model: <strong>{lastMessage.modelName}</strong></div>
                             <div className="chat-tuners">
