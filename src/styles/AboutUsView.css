@@ -1,63 +1,37 @@
-/* AboutUsView.css */
-.about-container {
+.about-us-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background-color: #f3f4f6;
     height: 100vh;
-    color: #333;
-    font-family: 'Arial', sans-serif;
+    background-color: #323232;
+    box-sizing: border-box;
 }
 
-.about-header {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.about-header h1 {
-    font-size: 36px;
-    color: #4a90e2;
-}
-
-.about-header p {
-    font-size: 18px;
-    color: #888;
-}
-
-.about-content {
+.top-bar {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 60%;
-}
-
-.about-section {
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
     background-color: #ffffff;
-    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    z-index: 10;
+}
+
+.history-panel-wrapper {
+    width: 20%;
+    display: flex;
+    justify-content: flex-start;
+    padding: 100px 20px;
+    box-sizing: border-box;
+    height: 75%;
+}
+
+.history-panel-wrapper > * {
+    width: 20%;
+    height: 100%;
+    overflow-y: auto;
+    background-color: #ff0cf2;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.about-section h2 {
-    font-size: 28px;
-    color: #4CAF50;
-    margin-bottom: 10px;
-}
-
-.crusades-list {
-    list-style-type: none;
-    padding-left: 0;
-}
-
-.crusades-list li {
-    font-size: 18px;
-    margin-bottom: 5px;
-}
-
-.about-footer {
-    margin-top: 30px;
-    color: #aaa;
-    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 10px;
 }

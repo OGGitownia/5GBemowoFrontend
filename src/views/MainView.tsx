@@ -13,6 +13,7 @@ import TreeComponent from "../components/TreeComponent.tsx";
 import BestBasesComponent from "../components/BestBasesComponent.tsx";
 import AllBasesComponent from "../components/AllBasesComponent.tsx";
 import ViewSelector from "../components/ViewSelector.tsx";
+import ChatHistoryPanel from "../components/ChatHistoryPanel.tsx";
 
 export default function MainView() {
     const { user, setUser } = useApp();
@@ -74,10 +75,17 @@ export default function MainView() {
                     handleButtonClick={handleButtonClick}
                 />
 
-                <div className="norm-list-scroll-expanded">
-                    {renderContent()}
+                <div className="content-columns">
+                    <div className="chat-history-wrapper">
+                        <ChatHistoryPanel />
+                    </div>
+
+                    <div className="norm-list-scroll-expanded">
+                        {renderContent()}
+                    </div>
                 </div>
             </div>
+
         </div>
     );
 }

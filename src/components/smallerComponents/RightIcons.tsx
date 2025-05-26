@@ -5,11 +5,13 @@ import AboutIcon from '../../assets/about_us_icon.svg?react';
 import LogoutIcon from '../../assets/logout.svg?react';
 import "../../styles/smallComponents/RightIcons.css";
 import {logoutUser} from "../../services/logout.tsx";
-import {useUser} from "../../services/UserContext.tsx";
+import { useApp } from "../../services/AppContext.tsx";
+
+
 
 
 export default function RightIcons() {
-    const {user, setUser} = useUser()
+    const { user, setUser } = useApp();
     console.log(user)
     const navigate = useNavigate();
 
