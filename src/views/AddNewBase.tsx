@@ -21,8 +21,9 @@ const AddNewBase: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [baseId, setBaseId] = useState<string | null>(null);
 
-    const { user, setUser } = useApp();
+    const { user } = useApp();
 
+    // Ładowanie normy z routingu
     useEffect(() => {
         if (state && state.norm) {
             setNorm(state.norm);
@@ -32,6 +33,7 @@ const AddNewBase: React.FC = () => {
         }
     }, [state, navigate]);
 
+    // Pobranie metod
     useEffect(() => {
         const fetchMethods = async () => {
             try {
@@ -45,11 +47,22 @@ const AddNewBase: React.FC = () => {
         fetchMethods();
     }, []);
 
+    // Aktualizacja statusu
+    const updateStatus = useCallback((newStatus: string) => {
+        setStatusHistory((prev) => [newStatus, ...prev]);
+        setCurrentStatus(newStatus);
+    }, []);
+
+    // Hook WebSocket tylko po uzyskaniu baseId
+    useBaseStatusSocket(baseId, updateStatus);
+
+    // Wybór metody
     const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedMethod(event.target.value);
         setErrorMessage(null);
     };
 
+    // Tworzenie bazy
     const handleCreateBase = () => {
         if (!norm) {
             console.error("Norm is not available.");
@@ -63,24 +76,19 @@ const AddNewBase: React.FC = () => {
 
             createBase(norm.zipUrl, selectedMethod, user.id)
                 .then((returnedBaseId) => {
-                    console.log("Base creation initiated.");
-                    setBaseId(returnedBaseId);
+                    console.log("Base creation initiated. ID:", returnedBaseId);
+                    setBaseId(returnedBaseId); // Aktywuje WebSocket
                 })
                 .catch((error) => {
                     console.error("Error during base creation:", error);
+                    setErrorMessage("Failed to create base. Please try again.");
+                    setIsLoading(false);
                 });
         } else {
             console.error("Metoda tworzenia bazy nie została wybrana.");
             setErrorMessage("You must select a method before confirming!");
         }
     };
-
-    const updateStatus = useCallback((newStatus: string) => {
-        setStatusHistory((prev) => [currentStatus, ...prev]);
-        setCurrentStatus(newStatus);
-    }, [currentStatus]);
-
-    useBaseStatusSocket(baseId || "", updateStatus);
 
     return norm ? (
         <div className="norm-details-container">
