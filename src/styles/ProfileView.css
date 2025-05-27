@@ -2,17 +2,50 @@
 body {
     background-color: var(--gray); /* albo konkretny kolor */
 }
+.profile-container {
+    width: 100%;
+    height: 100%;
+}
 .profile-wrapper {
     position: relative;
     padding: 0 20px;
 }
+.photo-editor {
+    position: fixed;
+    background: var(--mint);
+    color: var(--white);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 8px;
+    font-size: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.avatar-block {
+    display: flex;
+    align-items: center;
+    flex-direction: column; /* wyśrodkuj button w kolumnie */
+    gap: 20px; /* odstęp między zdjęciem a buttonem */
+    margin-bottom: 20px; /* odstęp od reszty sekcji */
+}
+.avatar-block button {
+    margin-top: 80px;
+
+}
+
 .profile-title {
     color: #1fc1b4;
     font-size: 2rem;
     font-weight: bold;
-    text-align: center;
     margin-bottom: 20px;
 }
+
 
 
 .top-buttons {
@@ -65,11 +98,20 @@ body {
     color: var(--white);
 }
 
-.back-button-fixed {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 100;
+.back-button-2 {
+    background-color: var(--mint);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .delete-button-fixed {

@@ -7,6 +7,7 @@ import "../styles/ChatHistoryPanel.css";
 const ChatHistoryPanel: React.FC = () => {
     const { chatMap, sortedChatIds } = useApp();
     const navigate = useNavigate();
+    console.log("załadowano panel historii")
 
     const getLastMessage = (messages: Message[]): Message => {
         return messages.reduce((latest, msg) => {

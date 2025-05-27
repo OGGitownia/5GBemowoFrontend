@@ -7,6 +7,7 @@ import { Message } from "../types/Message";
 import { sendMessage } from "../services/sendMessage";
 import BackButton from "../components/smallerComponents/BackButton.tsx";
 import { useApp } from "../services/AppContext.tsx";
+import RightIcons from "../components/smallerComponents/RightIcons.tsx";
 
 function ChatView() {
     const { chatMap, user, addPendingMessage } = useApp();
@@ -89,7 +90,7 @@ function ChatView() {
                     ))}
                 </div>
             </div>
-
+            <RightIcons/>
             <div className="chat-messages">
                 {messages.map((msg) => (
                     <div key={msg.id} className="chat-bubble">

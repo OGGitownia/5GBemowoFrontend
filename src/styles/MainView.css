@@ -22,8 +22,16 @@
     gap: 20px;
     z-index: 1000;
 }
-
-/* Przyciski z ikonami i podpisami */
+.right-icons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    z-index: 10;
+}
 .icon-btn-with-label {
     display: flex;
     flex-direction: column;
