@@ -6,8 +6,8 @@
     align-items: center;
     padding: 10px;
     border-radius: 12px;
-    background-color: var(--gray);
-    border: 1px solid var(--mint);
+    background-color: var(--darkgray);
+    border: 1px solid var(--darkgray);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
     gap: 5px;

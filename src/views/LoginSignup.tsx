@@ -1,17 +1,16 @@
 import { useState } from "react";
 import "../main/Shared.css";
 import "../styles/LoginSignup.css";
-import {useNavigate} from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 import user_icon from "../assets/person.png";
 import email_icon from "../assets/email.png";
 import password_icon from "../assets/password.png";
 
-import {getNewSessionToken} from "../services/authService.tsx";
-import {loginWithEmail} from "../services/login.tsx";
-import {User} from "../types/User.tsx";
-
+import { ValidateData } from "../services/ValidateData";
+import { getNewSessionToken } from "../services/authService.tsx";
+import { loginWithEmail } from "../services/login.tsx";
+import { User } from "../types/User.tsx";
 
 const handleClick = async (
     action: string,
@@ -19,16 +18,44 @@ const handleClick = async (
     email: string,
     password: string,
     setAction: (val: string) => void,
-    navigate: ReturnType<typeof useNavigate>
+    navigate: ReturnType<typeof useNavigate>,
+    setNameError: (msg: string) => void,
+    setEmailError: (msg: string) => void,
+    setPasswordError: (msg: string) => void
 ) => {
     if (action === "Sign Up") {
+        let hasError = false;
+
+        if (!ValidateData.isValidName(username)) {
+            setNameError("Name must be at least 4 characters and contain letters or digits.");
+            hasError = true;
+        } else {
+            setNameError("");
+        }
+
+        if (!ValidateData.isValidEmail(email)) {
+            setEmailError("Invalid email address.");
+            hasError = true;
+        } else {
+            setEmailError("");
+        }
+
+        if (!ValidateData.isValidPassword(password)) {
+            setPasswordError("Password must be at least 8 characters long, include one uppercase letter, one number, and one special character.");
+            hasError = true;
+        } else {
+            setPasswordError("");
+        }
+
+        if (hasError) return;
+
         const url = "http://localhost:8080/api/users/register/email";
         const data = {
             username: username,
             email: email,
             password: password
         };
-        console.log(data)
+        console.log(data);
 
         try {
             const response = await fetch(url, {
@@ -64,7 +91,6 @@ const handleClick = async (
                 if (token) {
                     console.log("Token zapisany w localStorage:", token);
                     localStorage.setItem("token", token);
-
                     navigate("/verifyEmail");
                 }
             } else {
@@ -79,13 +105,14 @@ const handleClick = async (
     }
 };
 
-
-
 function LoginSignup() {
     const [action, setAction] = useState<"Sign Up" | "Login" | "Reset">("Sign Up");
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [nameError, setNameError] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
     const navigate = useNavigate();
 
     const handleLoginClick = () => {
@@ -117,15 +144,18 @@ function LoginSignup() {
                 ) : (
                     <>
                         {action === "Login" ? null : (
-                            <div className="input">
-                                <img src={user_icon} alt="user icon" />
-                                <input
-                                    type="text"
-                                    placeholder="Name"
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                />
-                            </div>
+                            <>
+                                <div className="input">
+                                    <img src={user_icon} alt="user icon" />
+                                    <input
+                                        type="text"
+                                        placeholder="Name"
+                                        value={username}
+                                        onChange={(e) => setUsername(e.target.value)}
+                                    />
+                                </div>
+                                {nameError && <p className="error-text">{nameError}</p>}
+                            </>
                         )}
                         <div className="input">
                             <img src={email_icon} alt="email icon" />
@@ -136,6 +166,7 @@ function LoginSignup() {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
+                        {emailError && <p className="error-text">{emailError}</p>}
                         <div className="input">
                             <img src={password_icon} alt="password icon" />
                             <input
@@ -145,6 +176,7 @@ function LoginSignup() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
+                        {passwordError && <p className="error-text">{passwordError}</p>}
                     </>
                 )}
             </div>
@@ -156,7 +188,6 @@ function LoginSignup() {
                 </div>
             )}
 
-
             <div className="submit-container">
                 {action === "Reset" ? (
                     <div className="submit" onClick={() => alert(`Reset link sent to ${email}`)}>
@@ -166,7 +197,19 @@ function LoginSignup() {
                     <>
                         <div
                             className={action === "Login" ? "submit gray" : "submit"}
-                            onClick={() => handleClick(action, username, email, password, setAction, navigate)}
+                            onClick={() =>
+                                handleClick(
+                                    action,
+                                    username,
+                                    email,
+                                    password,
+                                    setAction,
+                                    navigate,
+                                    setNameError,
+                                    setEmailError,
+                                    setPasswordError
+                                )
+                            }
                         >
                             Sign Up
                         </div>
@@ -182,7 +225,6 @@ function LoginSignup() {
                     </>
                 )}
             </div>
-
         </div>
     );
 }
