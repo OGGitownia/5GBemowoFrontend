@@ -5,8 +5,8 @@
     padding: 12px;
     margin: 8px;
     border-radius: 10px;
-    background-color: #F5F5F5;
-    border: 1px solid #B0BEC5;
+    background-color: var(--gray);
+    border: 1px solid var(--gray);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     cursor: pointer;
@@ -14,7 +14,7 @@
 }
 
 .base-panel:hover {
-    background-color: #E0E0E0;
+    background-color: var(--darkmint);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 

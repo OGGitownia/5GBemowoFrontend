@@ -12,9 +12,9 @@ import {SeriesPanel} from "./smallerComponents/SeriesPanel.tsx";
 import "../styles/smallComponents/BackButtonTree.css";
 import {Norm} from "../types/Norm.tsx";
 import NormPanel from "./smallerComponents/NormPanel.tsx";
-import {Base} from "../types/Base.tsx";
 import BasePanel from "./smallerComponents/BasePanel.tsx";
 import {useNavigate} from "react-router-dom";
+
 
 export default function TreeComponent() {
     const navigate = useNavigate();
@@ -110,7 +110,7 @@ export default function TreeComponent() {
                     <button className="back-button" onClick={handleBackClick}>
                         ← Back to Norms
                     </button>
-                    <h3>Bases for {selectedNorm.title}</h3>
+                    <h3 className="Title-selection"> Bases for {selectedNorm.title}</h3>
                     <div className="bases-list">
                         {bases.map((base) => (
                             <BasePanel key={base.name} base={base} />
@@ -122,7 +122,7 @@ export default function TreeComponent() {
                     <button className="back-button" onClick={handleBackClick}>
                         ← Back to Series
                     </button>
-                    <h3>Norms for {selectedSeries.name}</h3>
+                    <h3 className="Title-selection"> for {selectedSeries.name}</h3>
                     <div className="norms-list">
                         {norms.map((norm) => (
                             <NormPanel
@@ -146,7 +146,7 @@ export default function TreeComponent() {
                     <button className="back-button" onClick={handleBackClick}>
                         ← Back to Releases
                     </button>
-                    <h3>Series for {selectedRelease.name}</h3>
+                    <h3 className="Title-selection">Series for {selectedRelease.name}</h3>
                     <div className="series-list">
                         {series.map((series) => (
                             <SeriesPanel

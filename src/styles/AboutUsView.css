@@ -1,6 +1,5 @@
 .about-us-container {
     display: flex;
-    flex-direction: column;
     height: 100vh;
     background-color: #323232;
     box-sizing: border-box;

@@ -1,7 +1,7 @@
 .right-icons {
     display: flex;
-    flex-direction: row; /* <- domyślnie, ale można jawnie ustawić */
-    align-items: center;  /* wyrównuje elementy w pionie, opcjonalnie */
+    flex-direction: row;
+    align-items: center;
     gap: 16px;
     position: absolute;
     right: 20px;

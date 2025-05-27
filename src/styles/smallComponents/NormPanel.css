@@ -5,10 +5,10 @@
     padding: 15px;
     margin: 10px;
     border-radius: 10px;
-    border: 1px solid #9E9E9E;
+    border: 1px solid var(--gray);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease;
-    color: #37474F;
+    color: var(--white);
 }
 
 .norm-panel:hover {
@@ -33,7 +33,7 @@
     flex-direction: column;
     gap: 4px;
     margin-bottom: 10px;
-    color: #5B5B5B;
+    color: var(--white) !important;
 }
 
 .button-group {
@@ -43,7 +43,7 @@
 }
 
 .show-bases-btn {
-    background-color: #4CAF50;
+    background-color: var(--mint);
     color: white;
     border: none;
     border-radius: 5px;
@@ -54,11 +54,11 @@
 }
 
 .show-bases-btn:hover {
-    background-color: #45A049;
+    background-color: var(--darkmint);
 }
 
 .add-base-btn {
-    background-color: #2196F3;
+    background-color: var(--mint);
     color: white;
     border: none;
     border-radius: 5px;
@@ -69,5 +69,5 @@
 }
 
 .add-base-btn:hover {
-    background-color: #1E88E5;
+    background-color: var(--darkmint);
 }

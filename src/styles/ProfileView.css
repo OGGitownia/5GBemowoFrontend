@@ -6,6 +6,13 @@ body {
     position: relative;
     padding: 0 20px;
 }
+.profile-title {
+    color: #1fc1b4;
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
 
 
 .top-buttons {
@@ -46,7 +53,7 @@ body {
 
 .profile-field span {
     margin-bottom: 8px;
-    color: var(--brightgray);
+    color: var(--white);
 }
 
 .profile-field input {

@@ -126,10 +126,10 @@ const AddNewBase: React.FC = () => {
             )}
 
             <div className="status-container">
-                <h4>Current Status:</h4>
-                <p>{currentStatus}</p>
+                <h4 className="current-status">Current Status:</h4>
+                <p className="current-status">{currentStatus}</p>
 
-                <h4>Previous Statuses:</h4>
+                <h4 className="current-status">Previous Statuses:</h4>
                 <ul className="status-history">
                     {statusHistory.map((status, index) => (
                         <li key={index}>{status}</li>
