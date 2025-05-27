@@ -1,156 +1,113 @@
-import { useState, useEffect, useRef } from "react";
 import "../main/Shared.css";
 import "../styles/ChatView.css";
-import SockJS from "sockjs-client";
-import { Client, IMessage } from "@stomp/stompjs";
 
-type Props = {
-    onBack: () => void;
-    norm: {
-        id: number;
-        sourceUrl: string;
-        status: string;
-        statusMessage?: string;
-    };
-};
+import { useLocation } from "react-router-dom";
+import { useState, useRef } from "react";
+import { Message } from "../types/Message";
+import { sendMessage } from "../services/sendMessage";
+import BackButton from "../components/smallerComponents/BackButton.tsx";
+import { useApp } from "../services/AppContext.tsx";
+import RightIcons from "../components/smallerComponents/RightIcons.tsx";
 
-type Message = {
-    sender: "user" | "bot";
-    content: string;
-};
+function ChatView() {
+    const { chatMap, user, addPendingMessage } = useApp();
+    const location = useLocation();
 
-function ChatView({ onBack, norm }: Props) {
-    const [messages, setMessages] = useState<Message[]>([]);
-    const [inputText, setInputText] = useState("");
-    const clientRef = useRef<Client | null>(null);
-
-    useEffect(() => {
-        const client = new Client({
-            webSocketFactory: () => new SockJS("http://localhost:8080/ws/chat"),
-            reconnectDelay: 5000,
-            debug: (str) => console.log("STOMP: " + str),
-            onConnect: () => {
-                console.log("✅ STOMP WebSocket połączony");
-
-                client.subscribe("/topic/chat", (message: IMessage) => {
-                    console.log("📥 Otrzymano wiadomość STOMP:");
-                    console.log("Raw message.body:", message.body);
-
-                    try {
-                        const data = JSON.parse(message.body);
-                        console.log("✅ Sparsowany JSON:", data);
-
-                        const botReply: Message = {
-                            sender: "bot",
-                            content: data.answer || "🤖 Brak treści odpowiedzi",
-                        };
-
-                        setMessages((prev) => [...prev, botReply]);
-                    } catch (err) {
-                        console.error("❌ Błąd parsowania JSON:", err);
-                        setMessages((prev) => [
-                            ...prev,
-                            {
-                                sender: "bot",
-                                content: "❌ Nie udało się przetworzyć odpowiedzi serwera.",
-                            },
-                        ]);
-                    }
-                });
-
-            },
-            onStompError: (frame) => {
-                console.error("❌ Błąd STOMP: ", frame.headers["message"]);
-                setMessages((prev) => [
-                    ...prev,
-                    { sender: "bot", content: "❌ Błąd WebSocket (STOMP)" },
-                ]);
-            },
-        });
-
-        client.activate();
-        clientRef.current = client;
-
-        return () => {
-            client.deactivate();
-        };
-    }, []);
-
-    const handleSend = () => {
-        if (!inputText.trim()) return;
-
-        const userMessage: Message = {
-            sender: "user",
-            content: inputText.trim(),
-        };
-
-        setMessages((prev) => [...prev, userMessage]);
-        setInputText("");
-
-        fetch("http://localhost:8080/api/chat/ask", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                baseName: norm.sourceUrl,
-                question: userMessage.content,
-            }),
-        })
-            .then((res) => {
-                if (!res.ok) throw new Error("Błąd zapytania");
-                return res.text();
-            })
-            .then(() => {
-                const botReply: Message = {
-                    sender: "bot",
-                    content: `📨 Serwer przyjął pytanie: "${userMessage.content}"`,
-                };
-                setMessages((prev) => [...prev, botReply]);
-            })
-            .catch((err) => {
-                const errorReply: Message = {
-                    sender: "bot",
-                    content: `❌ Błąd serwera: ${err.message}`,
-                };
-                setMessages((prev) => [...prev, errorReply]);
-            });
+    const { model, tuners, baseId, chatId: passedChatId } = location.state as {
+        model: string;
+        tuners: string[];
+        baseId: string;
+        chatId: number;
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === "Enter") {
-            handleSend();
+    const generateNextChatId = (): number => {
+        let maxId = -1;
+        for (const chatId of chatMap.keys()) {
+            const numericId = parseInt(chatId);
+            if (!isNaN(numericId)) {
+                maxId = Math.max(maxId, numericId);
+            }
+        }
+        return maxId + 1;
+    };
+
+    const [chatId] = useState(() => {
+        if (passedChatId === -1) {
+            const newId = generateNextChatId();
+            console.log("Utworzono nowy chatId:", newId);
+            return newId;
+        } else {
+            console.log("Otwieranie istniejącego chatId:", passedChatId);
+            return passedChatId;
+        }
+    });
+
+    const [input, setInput] = useState("");
+    const lastSentId = useRef<string | null>(null);
+
+    const messages = chatMap.get(chatId.toString()) ?? [];
+
+    const handleSend = async () => {
+        if (!input.trim()) return;
+
+        const id = `${user?.id}${Date.now()}`;
+        const newMessage: Message = {
+            id,
+            question: input,
+            answer: "",
+            modelName: model,
+            tuners,
+            askedAt: Date.now(),
+            answeredAt: undefined,
+            answered: false,
+            userId: user!.id,
+            chatId: chatId.toString(),
+            baseId: baseId,
+        };
+
+        lastSentId.current = id;
+        setInput("");
+
+        try {
+            await sendMessage(newMessage);
+            addPendingMessage(newMessage);
+            console.log("Message sent:", newMessage);
+
+        } catch (e) {
+            console.error("Błąd wysyłania wiadomości:", e);
         }
     };
 
     return (
-        <div className="chat-container">
-            <div className="top-bar">
-                <h2>Chat 3GPP</h2>
-                <div className="norm-info">
-                    Chatting with: <strong>{norm.sourceUrl}</strong> (status: {norm.status})
+        <div className="chat-view">
+            <div className="chat-header">
+                <BackButton />
+                <h1 className="chat-title">Chat3GPP</h1>
+                <p className="chat-sub">Current model: <strong>{model}</strong></p>
+                <div className="tuners-list">
+                    {tuners.map(tuner => (
+                        <div key={tuner} className="tuner-tile">{tuner}</div>
+                    ))}
                 </div>
-                <button className="back-button" onClick={onBack}>
-                    Back
-                </button>
             </div>
-
-            <div className="chat-window">
-                {messages.map((msg, index) => (
-                    <div
-                        key={index}
-                        className={`message ${msg.sender === "user" ? "user-message" : "bot-message"}`}
-                    >
-                        {msg.content}
+            <RightIcons/>
+            <div className="chat-messages">
+                {messages.map((msg) => (
+                    <div key={msg.id} className="chat-bubble">
+                        <div className="user-question"><strong>You:</strong> {msg.question}</div>
+                        <div className="ai-answer">
+                            <strong>AI:</strong>{" "}
+                            {msg.answered ? msg.answer : <em>Loading...</em>}
+                        </div>
                     </div>
                 ))}
             </div>
 
-            <div className="input-area">
+            <div className="chat-input-area">
                 <input
-                    type="text"
-                    placeholder="Type your message..."
-                    value={inputText}
-                    onChange={(e) => setInputText(e.target.value)}
-                    onKeyDown={handleKeyDown}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="Type your question..."
                 />
                 <button onClick={handleSend}>Send</button>
             </div>

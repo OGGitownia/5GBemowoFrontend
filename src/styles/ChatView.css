@@ -1,85 +1,113 @@
-.chat-container {
+.chat-view {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  padding: 10px;
+  background-color: #121212;
+  color: #f1f1f1;
+  padding: 0 16px;
+  box-sizing: border-box;
 }
 
-.top-bar {
+/* Górny panel z tytułem i tunerami */
+.chat-header {
+  text-align: center;
+  padding: 16px 0 8px;
+}
+
+.chat-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #00ffe0;
+  margin: 0;
+}
+
+.chat-sub {
+  font-size: 13px;
+  color: #cccccc;
+  margin: 4px 0 12px;
+}
+
+.tuners-list {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 12px;
 }
 
-.norm-info {
-  font-size: 0.9rem;
-  color: #555;
+.tuner-tile {
+  padding: 6px 12px;
+  background-color: #1e1e2f;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #00ffe0;
+  border: 1px solid #00ffe0;
 }
 
-.back-button {
-  padding: 6px 10px;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-
-.chat-window {
+/* Obszar wiadomości */
+.chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 10px;
-  margin: 10px 0;
-  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 4px;
+}
+
+.chat-bubble {
+  background-color: #1e1e2f;
+  padding: 10px 16px;
   border-radius: 10px;
-  border: 1px solid #ccc;
+  max-width: 90%;
+  margin: 0 auto;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
-.message {
-  margin: 6px 0;
-  padding: 10px;
-  border-radius: 8px;
-  max-width: 75%;
-  word-wrap: break-word;
+.user-question {
+  color: #ffffff;
+  margin-bottom: 4px;
 }
 
-.user-message {
-  align-self: flex-end;
-  background-color: #cce5ff;
-  text-align: right;
-  margin-left: auto;
+.ai-answer {
+  color: #cccccc;
+  font-style: italic;
 }
 
-.bot-message {
-  align-self: flex-start;
-  background-color: #e6ffe6;
-  text-align: left;
-  margin-right: auto;
-}
-
-.input-area {
+/* Input i przycisk */
+.chat-input-area {
   display: flex;
   gap: 10px;
-  padding-top: 10px;
+  padding: 12px 0;
+  border-top: 1px solid #2c2c3f;
+  background-color: #121212;
 }
 
-.input-area input {
+.chat-input-area input {
   flex: 1;
   padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
-
-.input-area button {
-  padding: 10px 20px;
-  font-size: 1rem;
+  border-radius: 6px;
   border: none;
-  border-radius: 8px;
-  background-color: #007bff;
+  background-color: #2c2c3f;
   color: white;
-  cursor: pointer;
+  font-size: 14px;
 }
 
-.input-area button:hover {
-  background-color: #0056b3;
+.chat-input-area input:focus {
+  outline: 2px solid #00ffe0;
+}
+
+.chat-input-area button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #00bfa5;
+  color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.chat-input-area button:hover {
+  background-color: #009e88;
 }
