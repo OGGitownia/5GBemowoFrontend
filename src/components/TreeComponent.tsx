@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import {
     fetchAllReleases,
-    fetchFetchBase,
     fetchNormsForReleaseAndSeries,
     fetchSeriesForRelease
 } from "../services/NormDataServices.tsx";
@@ -12,7 +11,6 @@ import {SeriesPanel} from "./smallerComponents/SeriesPanel.tsx";
 import "../styles/smallComponents/BackButtonTree.css";
 import {Norm} from "../types/Norm.tsx";
 import NormPanel from "./smallerComponents/NormPanel.tsx";
-import BasePanel from "./smallerComponents/BasePanel.tsx";
 import {useNavigate} from "react-router-dom";
 
 
@@ -73,24 +71,13 @@ export default function TreeComponent() {
         }
     };
 
-    const handleNormClick = async (norm: Norm) => {
-        setLoading(true);
-        try {
-            const data = await fetchFetchBase(selectedRelease!.releaseId, selectedSeries!.seriesId, norm.specNumber);
-            setBases(data);
-            setSelectedNorm(norm);
-        } catch (err) {
-            console.error(err);
-            setError("Failed to load bases");
-        } finally {
-            setLoading(false);
-        }
+    const handleNormClick = async () => {
+
     };
 
     const handleBackClick = () => {
         if (selectedNorm) {
             setSelectedNorm(null);
-            setBases([]);
         } else if (selectedSeries) {
             setSelectedSeries(null);
             setNorms([]);
@@ -112,9 +99,7 @@ export default function TreeComponent() {
                     </button>
                     <h3 className="Title-selection"> Bases for {selectedNorm.title}</h3>
                     <div className="bases-list">
-                        {bases.map((base) => (
-                            <BasePanel key={base.name} base={base} />
-                        ))}
+
                     </div>
                 </div>
             ) : selectedSeries ? (
@@ -128,7 +113,7 @@ export default function TreeComponent() {
                             <NormPanel
                                 key={norm.specNumber}
                                 norm={norm}
-                                onShowBases={() => handleNormClick(norm)}
+                                onShowBases={() => handleNormClick()}
                                 onAddBase={() => {
                                     if (norm) {
                                         navigate("/add", { state: { norm } });

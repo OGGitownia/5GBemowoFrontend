@@ -6,7 +6,7 @@ import { useApp } from "../services/AppContext.tsx";
 
 
 export default function Verification() {
-    const { user, setUser } = useApp();
+    const { user } = useApp();
 
     console.log(user)
     const [token, setToken] = useState<string>("");

@@ -7,6 +7,8 @@ import { createBase } from "../services/createBase.tsx";
 import { useApp } from "../services/AppContext.tsx";
 import { Spinner } from "reactstrap";
 import { useBaseStatusSocket } from "../services/useBaseStatusSocket.tsx";
+import BackButton from "../components/smallerComponents/BackButton.tsx";
+
 
 const AddNewBase: React.FC = () => {
     const navigate = useNavigate();
@@ -144,6 +146,7 @@ const AddNewBase: React.FC = () => {
                     ))}
                 </ul>
             </div>
+            <BackButton/>
         </div>
     ) : (
         <div className="loading-message">Loading norm details...</div>

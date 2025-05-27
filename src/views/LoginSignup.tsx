@@ -17,7 +17,7 @@ const handleClick = async (
     username: string,
     email: string,
     password: string,
-    setAction: (val: string) => void,
+    setAction: React.Dispatch<React.SetStateAction<"Sign Up" | "Login" | "Reset">>,
     navigate: ReturnType<typeof useNavigate>,
     setNameError: (msg: string) => void,
     setEmailError: (msg: string) => void,

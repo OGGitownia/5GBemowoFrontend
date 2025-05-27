@@ -2,7 +2,7 @@ import axios from "axios";
 import {Release} from "../types/Release.tsx";
 import {Series} from "../types/Series.tsx";
 import {Norm} from "../types/Norm.tsx";
-import {Base} from "../types/Base.tsx";
+
 
 const BASE_URL = "http://localhost:8080/api/norms";
 
@@ -37,18 +37,6 @@ export const fetchNormsForReleaseAndSeries = async (releaseId: string, seriesId:
     }
 };
 
-export const fetchFetchBase = async (releaseId: string, seriesId: string, norm: string): Promise<Base[]> => {
-
-    const b1: Base = { name: `Base 1 for ${releaseId} - ${seriesId} - ${norm}` };
-    const b2: Base = { name: `Base 2 for ${releaseId} - ${seriesId} - ${norm}` };
-    const b3: Base = { name: `Base 3 for ${releaseId} - ${seriesId} - ${norm}` };
-    const b4: Base = { name: `Base 4 for ${releaseId} - ${seriesId} - ${norm}` };
-    const b5: Base = { name: `Base 5 for ${releaseId} - ${seriesId} - ${norm}` };
-
-    const list: Base[] = [b1, b2, b3, b4, b5];
-
-    return list;
-};
 
 
 
