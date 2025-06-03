@@ -7,4 +7,7 @@ export interface Norm {
     date: string;
     size: string;
     numberOfBases: number;
+    release: string;
+    series: string;
 }
+

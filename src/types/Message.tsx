@@ -10,4 +10,8 @@ export interface Message {
     userId: number;
     chatId: string;
     baseId: string;
+    release: string;
+    series: string;
+    norm: string;
 }
+

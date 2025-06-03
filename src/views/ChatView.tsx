@@ -8,6 +8,7 @@ import { sendMessage } from "../services/sendMessage";
 import BackButton from "../components/smallerComponents/BackButton.tsx";
 import { useApp } from "../services/AppContext.tsx";
 import RightIcons from "../components/smallerComponents/RightIcons.tsx";
+import ChatBubble from "../components/smallerComponents/ChatBubble.tsx";
 
 function ChatView() {
     const { chatMap, user, addPendingMessage } = useApp();
@@ -63,7 +64,11 @@ function ChatView() {
             userId: user!.id,
             chatId: chatId.toString(),
             baseId: baseId,
+            release: location.state.release,
+            series: location.state.series,
+            norm: location.state.norm
         };
+
 
         lastSentId.current = id;
         setInput("");
@@ -93,14 +98,9 @@ function ChatView() {
             <RightIcons/>
             <div className="chat-messages">
                 {messages.map((msg) => (
-                    <div key={msg.id} className="chat-bubble">
-                        <div className="user-question"><strong>You:</strong> {msg.question}</div>
-                        <div className="ai-answer">
-                            <strong>AI:</strong>{" "}
-                            {msg.answered ? msg.answer : <em>Loading...</em>}
-                        </div>
-                    </div>
+                    <ChatBubble key={msg.id} message={msg} />
                 ))}
+
             </div>
 
             <div className="chat-input-area">
@@ -108,6 +108,12 @@ function ChatView() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Type your question..."
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                            e.preventDefault();
+                            handleSend();
+                        }
+                    }}
                 />
                 <button onClick={handleSend}>Send</button>
             </div>

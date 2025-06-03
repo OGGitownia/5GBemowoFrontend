@@ -115,12 +115,21 @@ export default function TreeComponent() {
                                 norm={norm}
                                 onShowBases={() => handleNormClick()}
                                 onAddBase={() => {
-                                    if (norm) {
-                                        navigate("/add", { state: { norm } });
+                                    if (norm && selectedRelease && selectedSeries) {
+                                        navigate("/add", {
+                                            state: {
+                                                norm: {
+                                                    ...norm,
+                                                    release: selectedRelease.name,
+                                                    series: selectedSeries.name
+                                                }
+                                            }
+                                        });
                                     } else {
-                                        console.error("Norma nie jest wybrana!");
+                                        console.error("Brakuje normy, release lub series!");
                                     }
                                 }}
+
                             />
 
                         ))}

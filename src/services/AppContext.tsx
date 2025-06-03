@@ -1,6 +1,19 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import React, {
+    createContext,
+    useContext,
+    useEffect,
+    useRef,
+    useState
+} from "react";
 import { Message } from "../types/Message.tsx";
 import { User } from "../types/User.tsx";
+
+export interface SelectedChatInfo {
+    chatId: string;
+    chatRel: string;
+    chatSeries: string;
+    chatNorm: string;
+}
 
 interface AppContextType {
     user: User | null;
@@ -8,8 +21,9 @@ interface AppContextType {
     chatMap: Map<string, Message[]>;
     sortedChatIds: string[];
     addPendingMessage: (msg: Message) => void;
+    selectedChatInfo: SelectedChatInfo;
+    setSelectedChatInfo: (info: SelectedChatInfo) => void;
 }
-
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
@@ -17,9 +31,15 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
     const [chatMap, setChatMap] = useState<Map<string, Message[]>>(new Map());
     const [sortedChatIds, setSortedChatIds] = useState<string[]>([]);
+    const [selectedChatInfo, setSelectedChatInfo] = useState<SelectedChatInfo>({
+        chatId: "",
+        chatRel: "",
+        chatSeries: "",
+        chatNorm: ""
+    });
+
     const socketRef = useRef<WebSocket | null>(null);
 
-    // WebSocket auto-connect
     useEffect(() => {
         if (!user?.id) {
             console.log("Brak usera — zamykamy socket");
@@ -41,7 +61,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 console.log("Otrzymano wiadomość:", msg);
                 updateWithIncomingMessage(msg);
             } catch (e) {
-                console.error("łąd parsowania wiadomości WS:", e);
+                console.error("Błąd parsowania wiadomości WS:", e);
             }
         };
 
@@ -97,16 +117,21 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     return (
-        <AppContext.Provider value={{ user, setUser, chatMap, sortedChatIds, addPendingMessage  }}>
+        <AppContext.Provider
+            value={{
+                user,
+                setUser,
+                chatMap,
+                sortedChatIds,
+                addPendingMessage,
+                selectedChatInfo,
+                setSelectedChatInfo
+            }}
+        >
             {children}
         </AppContext.Provider>
     );
-
-
-
 };
-
-
 
 export const useApp = () => {
     const context = useContext(AppContext);

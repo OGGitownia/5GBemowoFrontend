@@ -1,0 +1,43 @@
+.chat-bubble {
+    background-color: #222;
+    color: white;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    max-width: 90%;
+    word-wrap: break-word;
+}
+
+.user-question, .ai-answer {
+    margin-bottom: 6px;
+}
+
+.ai-answer table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.ai-answer th,
+.ai-answer td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    background-color: #1e1e1e;
+    color: #eee;
+}
+
+.ai-answer th {
+    background-color: #333;
+    font-weight: bold;
+}
+.embedded-photo {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 12px 0;
+    border: 1px solid #444;
+    border-radius: 6px;
+}
+
+

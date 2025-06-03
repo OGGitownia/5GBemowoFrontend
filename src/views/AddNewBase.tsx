@@ -22,10 +22,8 @@ const AddNewBase: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [baseId, setBaseId] = useState<string | null>(null);
-
     const { user } = useApp();
 
-    // Ładowanie normy z routingu
     useEffect(() => {
         if (state && state.norm) {
             setNorm(state.norm);
@@ -35,7 +33,7 @@ const AddNewBase: React.FC = () => {
         }
     }, [state, navigate]);
 
-    // Pobranie metod
+
     useEffect(() => {
         const fetchMethods = async () => {
             try {
@@ -49,37 +47,48 @@ const AddNewBase: React.FC = () => {
         fetchMethods();
     }, []);
 
-    // Aktualizacja statusu
+
     const updateStatus = useCallback((newStatus: string) => {
         setStatusHistory((prev) => [newStatus, ...prev]);
         setCurrentStatus(newStatus);
     }, []);
 
-    // Hook WebSocket tylko po uzyskaniu baseId
+
     useBaseStatusSocket(baseId, updateStatus);
 
-    // Wybór metody
+
     const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedMethod(event.target.value);
         setErrorMessage(null);
     };
 
-    // Tworzenie bazy
+
     const handleCreateBase = () => {
         if (!norm) {
             console.error("Norm is not available.");
             return;
         }
 
-        if (selectedMethod && user?.id) {
+        if (selectedMethod) {
             setIsConfirmed(true);
             setCurrentStatus("Waiting for the first status...");
             setIsLoading(true);
 
-            createBase(norm.zipUrl, selectedMethod, user.id)
+            const maxContextWindow = 32000;
+            const multiSearchAllowed = true;
+
+            createBase(
+                norm.zipUrl,
+                selectedMethod,
+                maxContextWindow,
+                multiSearchAllowed,
+                norm.release,
+                norm.series,
+                norm.specNumber
+            )
                 .then((returnedBaseId) => {
                     console.log("Base creation initiated. ID:", returnedBaseId);
-                    setBaseId(returnedBaseId); // Aktywuje WebSocket
+                    setBaseId(returnedBaseId);
                 })
                 .catch((error) => {
                     console.error("Error during base creation:", error);
@@ -91,6 +100,7 @@ const AddNewBase: React.FC = () => {
             setErrorMessage("You must select a method before confirming!");
         }
     };
+
 
     return norm ? (
         <div className="norm-details-container">

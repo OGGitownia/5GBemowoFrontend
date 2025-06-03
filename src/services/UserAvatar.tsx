@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {User} from "../types/User.tsx";
-import deafultAvatar from"../assets/braun.png"
+import deafultAvatar from "../assets/goethe.png"
 import "../styles//smallComponents/UserAvatar.css";
 
 
