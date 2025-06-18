@@ -2,7 +2,7 @@ import "../main/Shared.css";
 import "../styles/MainView.css";
 
 import { useApp } from "../services/AppContext.tsx";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import TreeComponent from "../components/TreeComponent.tsx";
 import BestBasesComponent from "../components/BestBasesComponent.tsx";
 import AllBasesComponent from "../components/AllBasesComponent.tsx";
@@ -11,13 +11,29 @@ import ChatHistoryPanel from "../components/ChatHistoryPanel.tsx";
 import RightIcons from "../components/smallerComponents/RightIcons.tsx";
 
 export default function MainView() {
-    const {user} = useApp();
+
     const [activeButton, setActiveButton] = useState<"all" | "tree" | "best">("all");
+    const {setSelectedChatInfo, user } = useApp();
+
+    useEffect(() => {
+        setSelectedChatInfo(prev => ({
+            ...prev,
+            chatRel: null,
+            chatSeries: null,
+            chatNorm: null
+        }));
+    }, []);
 
     const handleButtonClick = (buttonType: "all" | "tree" | "best") => {
         setActiveButton(buttonType);
         console.log(`Active button is now: ${buttonType}`);
         console.log(user)
+        setSelectedChatInfo(prev => ({
+            ...prev,
+            chatRel: null,
+            chatSeries: null,
+            chatNorm: null
+        }));
     };
 
     const renderContent = () => {

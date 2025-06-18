@@ -6,4 +6,7 @@ export interface BaseInfo {
     createdWthMethod: string;
     maxContextWindow: number;
     multiSearchAllowed: boolean;
+    release: string;
+    series: string;
+    norm: string;
 }

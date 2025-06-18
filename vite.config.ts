@@ -5,6 +5,10 @@ import svgr from 'vite-plugin-svgr'
 
 
 export default defineConfig({
+    base: '/',
+    build: {
+      outDir: 'dist'
+    },
     plugins: [react(), svgr()],
     define: {
         global: 'window',
@@ -13,6 +17,6 @@ export default defineConfig({
         proxy: {
             '/api': 'http://localhost:8080'
         }
-    }
+    },
 });
 

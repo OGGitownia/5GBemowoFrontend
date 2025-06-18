@@ -7,12 +7,17 @@ import React, {
 } from "react";
 import { Message } from "../types/Message.tsx";
 import { User } from "../types/User.tsx";
+import { Release } from "../types/Release.tsx";
+import { Series } from "../types/Series.tsx";
+import { Norm } from "../types/Norm.tsx";
+import { BaseInfo } from "../types/BaseInfo.tsx";
+import { fetchBases } from "./fetchBases.tsx";
 
 export interface SelectedChatInfo {
     chatId: string;
-    chatRel: string;
-    chatSeries: string;
-    chatNorm: string;
+    chatRel: Release | null;
+    chatSeries: Series | null;
+    chatNorm: Norm | null;
 }
 
 interface AppContextType {
@@ -22,7 +27,9 @@ interface AppContextType {
     sortedChatIds: string[];
     addPendingMessage: (msg: Message) => void;
     selectedChatInfo: SelectedChatInfo;
-    setSelectedChatInfo: (info: SelectedChatInfo) => void;
+    setSelectedChatInfo: React.Dispatch<React.SetStateAction<SelectedChatInfo>>;
+    bases: BaseInfo[];
+    setBases: React.Dispatch<React.SetStateAction<BaseInfo[]>>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -33,12 +40,21 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [sortedChatIds, setSortedChatIds] = useState<string[]>([]);
     const [selectedChatInfo, setSelectedChatInfo] = useState<SelectedChatInfo>({
         chatId: "",
-        chatRel: "",
-        chatSeries: "",
-        chatNorm: ""
+        chatRel: null,
+        chatSeries: null,
+        chatNorm: null
     });
+    const [bases, setBases] = useState<BaseInfo[]>([]);
 
     const socketRef = useRef<WebSocket | null>(null);
+
+    useEffect(() => {
+        const loadBases = async () => {
+            const loadedBases = await fetchBases();
+            setBases(loadedBases);
+        };
+        loadBases();
+    }, []);
 
     useEffect(() => {
         if (!user?.id) {
@@ -66,7 +82,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         };
 
         socket.onclose = () => {
-            console.log("🔌 Socket zamknięty");
+            console.log("Socket zamknięty");
         };
 
         socket.onerror = (e) => console.error("Błąd WebSocket:", e);
@@ -125,7 +141,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
                 sortedChatIds,
                 addPendingMessage,
                 selectedChatInfo,
-                setSelectedChatInfo
+                setSelectedChatInfo,
+                bases,
+                setBases
             }}
         >
             {children}

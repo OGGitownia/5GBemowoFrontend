@@ -2,24 +2,30 @@ import "../main/Shared.css";
 import "../styles/ChatView.css";
 
 import { useLocation } from "react-router-dom";
-import { useState, useRef } from "react";
+import {useState, useRef, useEffect} from "react";
 import { Message } from "../types/Message";
 import { sendMessage } from "../services/sendMessage";
 import BackButton from "../components/smallerComponents/BackButton.tsx";
 import { useApp } from "../services/AppContext.tsx";
 import RightIcons from "../components/smallerComponents/RightIcons.tsx";
 import ChatBubble from "../components/smallerComponents/ChatBubble.tsx";
+import {BaseInfo} from "../types/BaseInfo.tsx";
 
 function ChatView() {
     const { chatMap, user, addPendingMessage } = useApp();
     const location = useLocation();
+    const bottomRef = useRef<HTMLDivElement | null>(null);
 
-    const { model, tuners, baseId, chatId: passedChatId } = location.state as {
+
+
+
+    const { model, tuners, base, chatId: passedChatId } = location.state as {
         model: string;
         tuners: string[];
-        baseId: string;
+        base: BaseInfo;
         chatId: number;
     };
+
 
     const generateNextChatId = (): number => {
         let maxId = -1;
@@ -63,11 +69,13 @@ function ChatView() {
             answered: false,
             userId: user!.id,
             chatId: chatId.toString(),
-            baseId: baseId,
-            release: location.state.release,
-            series: location.state.series,
-            norm: location.state.norm
+            baseId: base.id.toString(),
+            release: base.release,
+            series: base.series,
+            norm: base.norm
         };
+
+        console.log(newMessage);
 
 
         lastSentId.current = id;
@@ -82,6 +90,10 @@ function ChatView() {
             console.error("Błąd wysyłania wiadomości:", e);
         }
     };
+
+    useEffect(() => {
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
     return (
         <div className="chat-view">
@@ -100,8 +112,9 @@ function ChatView() {
                 {messages.map((msg) => (
                     <ChatBubble key={msg.id} message={msg} />
                 ))}
-
+                <div ref={bottomRef} />
             </div>
+
 
             <div className="chat-input-area">
                 <input

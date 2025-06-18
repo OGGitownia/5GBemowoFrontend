@@ -22,3 +22,17 @@
 .base-card strong {
     color: var(--mint);
 }
+.base-info-grid {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.base-info-column {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 45%;
+}
+

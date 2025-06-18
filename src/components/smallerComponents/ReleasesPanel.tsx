@@ -9,6 +9,10 @@ interface ReleasePanelProps {
 }
 
 export const ReleasePanel: React.FC<ReleasePanelProps> = ({ release, onClick }) => {
+
+    // teraz do onclick chcemy dodać ustawienie na release.name
+
+
     return (
         <div className="release-panel" onClick={onClick}>
             <div className="header">

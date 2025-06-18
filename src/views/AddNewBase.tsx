@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/AddNewBase.css";
 import { Norm } from "../types/Norm.tsx";
 import { fetchBaseCreatingMethods } from "../services/fetchBaseCreatingMethods.tsx";
@@ -12,7 +12,8 @@ import BackButton from "../components/smallerComponents/BackButton.tsx";
 
 const AddNewBase: React.FC = () => {
     const navigate = useNavigate();
-    const { state } = useLocation();
+    const { selectedChatInfo, user } = useApp();
+
     const [norm, setNorm] = useState<Norm | null>(null);
     const [methods, setMethods] = useState<string[]>([]);
     const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
@@ -22,16 +23,16 @@ const AddNewBase: React.FC = () => {
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [baseId, setBaseId] = useState<string | null>(null);
-    const { user } = useApp();
 
     useEffect(() => {
-        if (state && state.norm) {
-            setNorm(state.norm);
+        if (selectedChatInfo.chatNorm) {
+            setNorm(selectedChatInfo.chatNorm);
         } else {
-            console.error("Brak normy! Przekierowanie do głównego widoku.");
+            console.error("Brak normy w kontekście! Przekierowanie do głównego widoku.");
             navigate("/select");
         }
-    }, [state, navigate]);
+    }, [selectedChatInfo.chatNorm, navigate]);
+
 
 
     useEffect(() => {
@@ -64,52 +65,67 @@ const AddNewBase: React.FC = () => {
 
 
     const handleCreateBase = () => {
-        if (!norm) {
-            console.error("Norm is not available.");
+        const { chatRel, chatSeries, chatNorm } = selectedChatInfo;
+
+        if (!chatRel || !chatSeries || !chatNorm) {
+            console.error("Brakuje release, series lub normy w kontekście.");
+            setErrorMessage("Missing release, series, or norm information.");
             return;
         }
 
-        if (selectedMethod) {
-            setIsConfirmed(true);
-            setCurrentStatus("Waiting for the first status...");
-            setIsLoading(true);
-
-            const maxContextWindow = 32000;
-            const multiSearchAllowed = true;
-
-            createBase(
-                norm.zipUrl,
-                selectedMethod,
-                maxContextWindow,
-                multiSearchAllowed,
-                norm.release,
-                norm.series,
-                norm.specNumber
-            )
-                .then((returnedBaseId) => {
-                    console.log("Base creation initiated. ID:", returnedBaseId);
-                    setBaseId(returnedBaseId);
-                })
-                .catch((error) => {
-                    console.error("Error during base creation:", error);
-                    setErrorMessage("Failed to create base. Please try again.");
-                    setIsLoading(false);
-                });
-        } else {
+        if (!selectedMethod) {
             console.error("Metoda tworzenia bazy nie została wybrana.");
             setErrorMessage("You must select a method before confirming!");
+            return;
         }
+
+        if (!user?.id) {
+            console.error("Brakuje użytkownika w kontekście.");
+            setErrorMessage("User not logged in.");
+            return;
+        }
+
+        setIsConfirmed(true);
+        setCurrentStatus("Waiting for the first status...");
+        setIsLoading(true);
+
+        createBase(
+            chatNorm.zipUrl,
+            selectedMethod,
+            32000,
+            true,
+            chatRel.name,
+            chatSeries.name,
+            chatNorm.specNumber
+        ).then((returnedBaseId) => {
+                console.log("Base creation initiated. ID:", returnedBaseId);
+                setBaseId(returnedBaseId);
+            })
+            .catch((error) => {
+                console.error("Error during base creation:", error);
+                setErrorMessage("Failed to create base. Please try again.");
+                setIsLoading(false);
+            });
     };
+
 
 
     return norm ? (
         <div className="norm-details-container">
             <div className="info-header">
                 <h2>You are creating a new base for LLM</h2>
+
                 <p>
-                    Based on: <strong>{norm.title}</strong> (Code: <strong>{norm.specNumber}</strong>)
+                    <strong>Release:</strong> {selectedChatInfo.chatRel?.name ?? <em>Not selected</em>}
+                </p>
+                <p>
+                    <strong>Series:</strong> {selectedChatInfo.chatSeries?.name ?? <em>Not selected</em>}
+                </p>
+                <p>
+                    <strong>Norm:</strong> {norm.title} (<strong>{norm.specNumber}</strong>)
                 </p>
             </div>
+
 
             {!isConfirmed ? (
                 <div className="selection-area">

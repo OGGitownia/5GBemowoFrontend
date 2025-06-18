@@ -85,3 +85,21 @@
     font-size: 0.8rem;
     color: var(--brightgray);
 }
+.chat-question {
+    margin-top: 4px;
+    font-style: italic;
+    color: #14958b;
+}
+
+.chat-meta {
+    margin-top: 6px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #afff00;
+}
+
+.chat-meta div {
+    margin-bottom: 2px;
+}
+
+

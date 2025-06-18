@@ -12,7 +12,6 @@ import { useApp } from "../../services/AppContext.tsx";
 
 export default function RightIcons() {
     const { user, setUser } = useApp();
-    console.log(user)
     const navigate = useNavigate();
 
     return (

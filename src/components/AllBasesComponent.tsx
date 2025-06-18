@@ -24,10 +24,12 @@ const AllBasesComponent: React.FC = () => {
         <div className="all-bases-container">
             <h2 className="all-bases-title">Base List</h2>
             <div className="base-cards-wrapper">
-                {bases.map((base) => (
-                    <BaseInfoCard key={base.id} base={base} />
-                ))}
+                {bases.map((base) => {
+                    console.log("Base:", base); 
+                    return <BaseInfoCard key={base.id} base={base} />;
+                })}
             </div>
+
         </div>
     );
 };

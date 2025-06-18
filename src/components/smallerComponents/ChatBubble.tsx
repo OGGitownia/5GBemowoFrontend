@@ -1,4 +1,4 @@
-import React from "react";
+import React, {JSX} from "react";
 import parse, { DOMNode, Text } from "html-react-parser";
 import { Message } from "../../types/Message.tsx";
 import "../../styles/smallComponents/ChatBubble.css";
@@ -10,7 +10,7 @@ interface ChatBubbleProps {
 const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
     const baseId = message.baseId;
 
-    const transform = (node: DOMNode): React.ReactNode => {
+    const transform = (node: DOMNode, _index: number): JSX.Element | string | null => {
         if (node.type === "text") {
             const text = (node as Text).data;
 
@@ -40,6 +40,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
 
                 lastIndex = end;
             }
+
             if (lastIndex < text.length) {
                 parts.push(text.slice(lastIndex));
             }
@@ -47,8 +48,9 @@ const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
             return parts.length > 0 ? <>{parts}</> : text;
         }
 
-        return undefined;
+        return null;
     };
+
 
     return (
         <div className="chat-bubble">

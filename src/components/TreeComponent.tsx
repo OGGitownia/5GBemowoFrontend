@@ -12,6 +12,7 @@ import "../styles/smallComponents/BackButtonTree.css";
 import {Norm} from "../types/Norm.tsx";
 import NormPanel from "./smallerComponents/NormPanel.tsx";
 import {useNavigate} from "react-router-dom";
+import {useApp} from "../services/AppContext.tsx";
 
 
 export default function TreeComponent() {
@@ -23,9 +24,8 @@ export default function TreeComponent() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
-    const [selectedRelease, setSelectedRelease] = useState<Release | null>(null);
-    const [selectedSeries, setSelectedSeries] = useState<Series | null>(null);
-    const [selectedNorm, setSelectedNorm] = useState<Norm | null>(null);
+
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,46 +43,73 @@ export default function TreeComponent() {
         fetchData();
     }, []);
 
+    const { selectedChatInfo, setSelectedChatInfo } = useApp();
+
     const handleReleaseClick = async (release: Release) => {
         setLoading(true);
         try {
             const data = await fetchSeriesForRelease(release.releaseId);
             setSeries(data);
-            setSelectedRelease(release);
+
+
+            setSelectedChatInfo(prev => ({
+                ...prev,
+                chatRel: release
+            }));
         } catch (err) {
-            console.error(err);
+            console.error("Błąd przy pobieraniu serii:", err);
             setError("Failed to load series");
         } finally {
             setLoading(false);
         }
     };
 
+
     const handleSeriesClick = async (series: Series) => {
         setLoading(true);
         try {
-            const data = await fetchNormsForReleaseAndSeries(selectedRelease!.releaseId, series.seriesId);
+            const release = selectedChatInfo.chatRel;
+            if (!release) {
+                throw new Error("Nie wybrano release przed kliknięciem serii.");
+            }
+
+            const data = await fetchNormsForReleaseAndSeries(release.releaseId, series.seriesId);
             setNorms(data);
-            setSelectedSeries(series);
+
+            setSelectedChatInfo(prev => ({
+                ...prev,
+                chatSeries: series
+            }));
         } catch (err) {
-            console.error(err);
+            console.error("Błąd przy pobieraniu norm:", err);
             setError("Failed to load norms");
         } finally {
             setLoading(false);
         }
     };
 
-    const handleNormClick = async () => {
 
-    };
 
     const handleBackClick = () => {
-        if (selectedNorm) {
-            setSelectedNorm(null);
-        } else if (selectedSeries) {
-            setSelectedSeries(null);
+        if (selectedChatInfo.chatNorm) {
+            setSelectedChatInfo(prev => ({
+                ...prev,
+                chatNorm: null
+            }));
+        } else if (selectedChatInfo.chatSeries) {
+            setSelectedChatInfo(prev => ({
+                ...prev,
+                chatSeries: null,
+                chatNorm: null
+            }));
             setNorms([]);
-        } else {
-            setSelectedRelease(null);
+        } else if (selectedChatInfo.chatRel) {
+            setSelectedChatInfo(prev => ({
+                ...prev,
+                chatRel: null,
+                chatSeries: null,
+                chatNorm: null
+            }));
             setSeries([]);
         }
     };
@@ -90,57 +117,63 @@ export default function TreeComponent() {
     if (loading) return <div>Loading releases...</div>;
     if (error) return <div>Error: {error}</div>;
 
+    const { chatRel, chatSeries, chatNorm } = selectedChatInfo;
+
     return (
         <div className="tree-container">
-            {selectedNorm ? (
+            {chatNorm ? (
                 <div className="bases-view">
-                    <button className="back-button" onClick={handleBackClick}>
+                    <button className="backTree-button" onClick={handleBackClick}>
                         ← Back to Norms
                     </button>
-                    <h3 className="Title-selection"> Bases for {selectedNorm.title}</h3>
+                    <h3 className="Title-selection">Bases for {chatNorm.title}</h3>
                     <div className="bases-list">
-
                     </div>
                 </div>
-            ) : selectedSeries ? (
+            ) : chatSeries ? (
                 <div className="norms-view">
-                    <button className="back-button" onClick={handleBackClick}>
-                        ← Back to Series
-                    </button>
-                    <h3 className="Title-selection"> for {selectedSeries.name}</h3>
+                    <div className="back-title-container">
+                        <button className="backTree-button" onClick={handleBackClick}>
+                            ← Back to Series
+                        </button>
+                        <h3 className="Title-selection">Norms for {chatSeries.name}</h3>
+                    </div>
                     <div className="norms-list">
                         {norms.map((norm) => (
                             <NormPanel
                                 key={norm.specNumber}
                                 norm={norm}
-                                onShowBases={() => handleNormClick()}
+                                onShowBases={() => {
+                                    setSelectedChatInfo(prev => ({
+                                        ...prev,
+                                        chatNorm: norm
+                                    }));
+                                }}
                                 onAddBase={() => {
-                                    if (norm && selectedRelease && selectedSeries) {
-                                        navigate("/add", {
-                                            state: {
-                                                norm: {
-                                                    ...norm,
-                                                    release: selectedRelease.name,
-                                                    series: selectedSeries.name
-                                                }
-                                            }
-                                        });
+                                    if (chatRel && chatSeries) {
+                                        setSelectedChatInfo(prev => ({
+                                            ...prev,
+                                            chatNorm: norm
+                                        }));
+                                        navigate("/add");
                                     } else {
-                                        console.error("Brakuje normy, release lub series!");
+                                        console.error("Brakuje release lub series!");
                                     }
                                 }}
-
                             />
 
                         ))}
                     </div>
                 </div>
-            ) : selectedRelease ? (
+            ) : chatRel ? (
                 <div className="series-view">
-                    <button className="back-button" onClick={handleBackClick}>
-                        ← Back to Releases
-                    </button>
-                    <h3 className="Title-selection">Series for {selectedRelease.name}</h3>
+                    <div className="back-title-container">
+                        <button className="backTree-button" onClick={handleBackClick}>
+                            ← Back to Releases
+                        </button>
+                        <h3 className="Title-selection">Series for {chatRel.name}</h3>
+                    </div>
+
                     <div className="series-list">
                         {series.map((series) => (
                             <SeriesPanel
@@ -164,4 +197,5 @@ export default function TreeComponent() {
             )}
         </div>
     );
+
 }

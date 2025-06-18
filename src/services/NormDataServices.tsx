@@ -108,6 +108,7 @@ const isNorm = (data: unknown): data is Norm => {
 const mapToNorm = (data: unknown): Norm => {
     if (isNorm(data)) {
         return {
+            release: "", series: "",
             specNumber: data.specNumber,
             title: data.title,
             versions: data.versions,
